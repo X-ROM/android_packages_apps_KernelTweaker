@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
-        android:text="This folder is empty!"
+        android:text="@string/empty"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#ff4444" />
 

@@ -41,7 +41,7 @@
             android:layout_marginTop="3dp"
             android:fadingEdge="horizontal"
             android:singleLine="true"
-            android:text="title"
+            android:text="@string/title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_marginRight ="3dp"
             android:layout_alignStart="@android:id/title"
             android:maxLines="4"
-            android:text="summary"
+            android:text="@string/summary"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="?android:attr/textColorSecondary" />
 
@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-thin"
                 android:layout_gravity="center"
-                android:text="100 Mb" />
+                android:text="@string/onehundred_mb" />
 
         </LinearLayout>
     </LinearLayout>

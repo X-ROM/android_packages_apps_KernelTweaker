@@ -53,7 +53,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
             android:background="@drawable/bottombutton"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
             android:background="@drawable/bottombutton"
             android:fontFamily="sans-serif-condensed"
             android:layout_weight="1"
-            android:text="Reboot" />
+            android:text="@string/reboot" />
     </LinearLayout>
     
 </LinearLayout>

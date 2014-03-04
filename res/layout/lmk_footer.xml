@@ -7,7 +7,7 @@
     <TextView
         style="?android:attr/listSeparatorTextViewStyle"
         android:fontFamily="sans-serif-condensed"
-        android:text="PRESETS"
+        android:text="@string/presets"
         android:layout_marginTop="15dp"
         android:textColor="@android:color/holo_blue_dark" />
 

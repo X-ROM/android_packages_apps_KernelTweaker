@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:text="Set on Boot" />
+        android:text="@string/set_on_boot" />
 
 </LinearLayout>

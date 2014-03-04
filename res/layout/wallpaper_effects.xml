@@ -37,7 +37,7 @@
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Blur Radius"
+                android:text="@string/blur_radius"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <SeekBar
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:background="@drawable/bottombutton"
             android:fontFamily="sans-serif-condensed"
-            android:text="Apply" />
+            android:text="@string/apply" />
     </LinearLayout>
 
 </LinearLayout>

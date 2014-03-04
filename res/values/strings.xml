@@ -5,6 +5,31 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 
+    <!-- Custom Strings -->
+    <string name="blur_radius">Blur Radius</string>
+    <string name="apply">Apply</string>
+    <string name="title">Title</string>
+    <string name="summary">Summary</string>
+    <string name="onehundred_mb">100 Mb</string>
+    <string name="medium_text">Medium Text</string>
+    <string name="summaryggg">summaryggg</string>
+    <string name="empty">This folder is Empty!</string>
+    <string name="qqq">qqq</string>
+    <string name="set_on_boot">Set On Boot</string>
+    <string name="command">Commands list is empty.\n Tap the plus button to add a command</string>
+    <string name="system">System</string>
+    <string name="data">Data</string>
+    <string name="android_secure">Android Secure</string>
+    <string name="boot">Boot</string>
+    <string name="cache">Cache</string>
+    <string name="recovery">Recovery</string>
+    <string name="backup_name">Backup Name</string>
+    <string name="textview">TextView</string>
+    <string name="presets">PRESETS</string>
+    <string name="reboot">Reboot</string>
+    <string name="no_backups_found">No Backups Found</string>
+    <string name="backups_display">The backups you make will be displayed here</string>
+
     <!-- About -->
     <string name="title_about">About</string>
     <string name="about_ok">OK</string>

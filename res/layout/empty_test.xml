@@ -11,7 +11,7 @@
         android:fontFamily="sans-serif-condensed"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Commands list is empty.\n Tap the plus button to add a command"
+        android:text="@string/command"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#ff4444" />
 

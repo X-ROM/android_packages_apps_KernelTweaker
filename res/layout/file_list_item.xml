@@ -24,7 +24,7 @@
             android:ellipsize="end"
             android:fontFamily="sans-serif-condensed"
             android:maxLines="1"
-            android:text="qqq"
+            android:text="@string/qqq"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView

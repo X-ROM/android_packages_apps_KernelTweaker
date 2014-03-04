@@ -30,7 +30,7 @@
                 android:layout_margin="5dp"
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Medium Text"
+                android:text="@string/medium_text"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_margin="5dp"
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-light"
-                android:text="Medium Text"
+                android:text="@string/medium_text"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>

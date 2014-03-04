@@ -162,7 +162,7 @@
                 android:fadingEdge="horizontal"
                 android:fontFamily="sans-serif-condensed"
                 android:singleLine="true"
-                android:text="No Backups found"
+                android:text="@string/no_backups_found"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:layout_marginRight="3dp"
                 android:fontFamily="sans-serif-thin"
                 android:maxLines="4"
-                android:text="The backups you make will be displayed here "
+                android:text="@string/backups_display"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>

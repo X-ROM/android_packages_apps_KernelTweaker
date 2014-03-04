@@ -8,7 +8,7 @@
         style="?android:attr/listSeparatorTextViewStyle"
         android:fontFamily="sans-serif-condensed"
         android:layout_marginTop="10dp"
-        android:text=""
+        android:text="@null"
         android:textColor="@android:color/holo_blue_dark" />
 
 </LinearLayout>

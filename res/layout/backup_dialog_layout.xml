@@ -14,42 +14,42 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="System" />
+            android:text="@string/system" />
 
         <CheckBox
             android:id="@+id/cb_data"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="Data" />
+            android:text="@string/data" />
 
         <CheckBox
             android:id="@+id/cb_secure"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="Android Secure" />
+            android:text="@string/android_secure" />
 
         <CheckBox
             android:id="@+id/cb_boot"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="Boot" />
+            android:text="@string/boot" />
 
         <CheckBox
             android:id="@+id/cb_cache"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="Cache" />
+            android:text="@string/cache" />
 
         <CheckBox
             android:id="@+id/cb_recovery"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="Recovery" />
+            android:text="@string/recovery" />
 
         <CheckBox
             android:id="@+id/cb_compression"
@@ -72,7 +72,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Backup Name"
+            android:text="@string/backup_name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <EditText

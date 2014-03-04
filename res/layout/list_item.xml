@@ -41,13 +41,13 @@
             android:layout_marginRight ="3dp"
             android:layout_marginTop="3dp"
             android:fadingEdge="horizontal"
-            android:text="title"
+            android:text="@string/title"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     <TextView
         android:id="@+android:id/text2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="summary"
+        android:text="@string/summary"
         android:layout_weight="1"
         android:fontFamily="sans-serif-light"
         android:textAppearance="?android:attr/textAppearanceSmall"

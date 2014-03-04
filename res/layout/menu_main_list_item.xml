@@ -23,7 +23,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:fontFamily="sans-serif-condensed"
-        android:text="Medium Text"
+        android:text="@string/medium_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 

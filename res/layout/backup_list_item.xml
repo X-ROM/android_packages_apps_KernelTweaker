@@ -18,7 +18,7 @@
         android:ellipsize="marquee"
         android:fontFamily="sans-serif-condensed"
         android:layout_gravity="center"
-        android:text="Medium Text"
+        android:text="@string/medium_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </LinearLayout>
