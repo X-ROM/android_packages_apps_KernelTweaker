@@ -100,7 +100,7 @@ public class BackupFragment extends Fragment implements OnClickListener, OnItemC
 		}
 
 
-		backupDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/K-BACKUPS");
+		backupDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/KT Backups");
 		if(!backupDir.exists()) {
 			backupDir.mkdirs();
 		}
