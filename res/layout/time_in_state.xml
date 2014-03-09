@@ -23,7 +23,7 @@
                 style="?android:attr/listSeparatorTextViewStyle"
                 android:fontFamily="sans-serif-condensed"
                 android:text="@string/cpu_info_list_header"
-                android:textColor="@android:color/holo_blue_dark" />
+                android:textColor="@android:color/white" />
 
             <ListView
                 android:id="@+id/cpu_info_list"
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/total_state_time"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/ui_total_state_time"
@@ -49,7 +49,7 @@
             android:fontFamily="sans-serif-condensed"
             android:gravity="center_horizontal"
             android:padding="7dp"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@android:color/white"
             android:textSize="25sp" />
 
         <TextView
@@ -57,7 +57,7 @@
             style="?android:attr/listSeparatorTextViewStyle"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/unused_cpu_states"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:visibility="gone" />
 
         <TextView
@@ -71,7 +71,7 @@
             style="?android:attr/listSeparatorTextViewStyle"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/time_in_state"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/ui_states_view"
@@ -88,7 +88,7 @@
             android:fontFamily="sans-serif-condensed"
             android:padding="15dp"
             android:text="@string/no_states_file_found"
-            android:textColor="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white"
             android:textSize="20sp"
             android:visibility="gone" />
     </LinearLayout>
