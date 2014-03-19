@@ -587,7 +587,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		}else {
 			mKernelCategory.removePreference(mVibration);
 		}
-		/*
 		if(new File(FAUXSOUND_FILE).exists()) {
 			File[] files = new File(FAUXSOUND_FILE).listFiles();
 			Arrays.sort(files);
@@ -597,7 +596,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				}
 			}
 		}
-		*/
 		if(mSoundCategory.getPreferenceCount() == 1) {
 			mRootScreen.removePreference(mSoundCategory);
 		}
