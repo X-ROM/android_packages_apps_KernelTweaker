@@ -88,9 +88,13 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	String[] readAheadKb = {"128","256","384","512","640","768","896","1024","1152",
 			"1280","1408","1536","1664","1792","1920","2048", "2176", "2304", "2432", "2560", 
 			"2688", "2816", "2944", "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"};
+	String[] t2wDelay = {"5000","10000","15000","20000","25000","30000","35000","40000","45000",
+				"50000","55000","65000","70000","75000","85000","90000","95000","100000","105000","110000",
+				"115000","120000","125000","130000","1350000","140000","145000","150000","155000","160000","165000","170000"};
 	private static final String GPU_FREQUENCIES_FILE = "/sys/class/kgsl/kgsl-3d0/gpu_available_frequencies";
 	private static final String SCHEDULER_FILE = "/sys/block/mmcblk0/queue/scheduler";
 	private static final String READ_AHEAD_FILE = "/sys/block/mmcblk0/queue/read_ahead_kb";
+	private static final String T2W_DELAY_FILE = "/sys/devices/virtual/misc/touchwake/delay";
 	private static final String CPUQUIET_DIR = "/sys/devices/system/cpu/cpuquiet";
 	private static final String CPUQUIET_FILE = "/sys/devices/system/cpu/cpuquiet/current_governor";
 	private static final String CPUQUIET_GOVERNORS = "/sys/devices/system/cpu/cpuquiet/available_governors";
@@ -119,6 +123,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		Helpers.setPermissions(READ_AHEAD_FILE);
 		Helpers.setPermissions(CPUQUIET_DIR);
 		Helpers.setPermissions(CPUQUIET_GOVERNORS);
+		Helpers.setPermissions(T2W_DELAY_FILE);
 
 		frequencies = Helpers.getFrequencies();
 		names = Helpers.getFrequenciesNames();
@@ -178,6 +183,8 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 						createListPreference(mKernel,fPath, fName, value, schedulers, schedulers, color, category, false);
 					}else if(fName.contains("Read Ahead size")) {
 						createListPreference(mKernel,fPath, fName, value, readAheadKb,readAheadKb, color, category, false);
+					}else if(fName.contains("Touch 2 Wake Delay")) {
+						createListPreference(mKernel,fPath, fName, value, t2wDelay,t2wDelay, color, category, false);
 					}else if(fName.contains("TCP Congestion control")) {
 						String[] availTCP = Helpers.readCommandStrdOut(TCP_OPTIONS, false).replaceAll("net.ipv4.tcp_available_congestion_control = ", "").replaceAll("\n", "").split(" ");
 						createListPreference(mKernel, fPath, fName, value, availTCP, availTCP, color, category, false);
