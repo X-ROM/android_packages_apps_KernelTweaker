@@ -43,6 +43,10 @@
             android:summary="If enabled, you will be able to wake your device with a double tap on the screen"
             android:title="DoubleTap 2 Wake " />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_dt2w2_switch"
+            android:summary="If enabled, you will be able to wake your device with a double tap on the screen"
+            android:title="DoubleTap 2 Wake " />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_s2w_switch"
             android:summary="If enabled, you will be able to wake or turn off the screen by swiping on navigation bar area"
             android:title="Sweep 2 Wake " />

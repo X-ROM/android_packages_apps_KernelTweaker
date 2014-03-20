@@ -56,6 +56,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private CustomCheckBoxPreference mKernelF2w;
 	private CustomCheckBoxPreference mKernelFcharge;
 	private CustomCheckBoxPreference mDoubleTap;
+        private CustomCheckBoxPreference mDoubleTap2;
 	private CustomCheckBoxPreference mSweep2wake;
 	private CustomCheckBoxPreference mSweep2sleep;
 	private CustomCheckBoxPreference mIntelliPlug;
@@ -86,6 +87,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private static final String TCP_OPTIONS = "sysctl net.ipv4.tcp_available_congestion_control";
 	private static final String TCP_CURRENT = "sysctl net.ipv4.tcp_congestion_control";
 	private static final String DT2W_FILE = "/sys/android_touch/doubletap2wake";
+        private static final String DT2W2_FILE = "/sys/devices/virtual/input/lge_touch/dt_wake_enabled";
 	private static final String S2W_FILE = "/sys/android_touch/sweep2wake";
 	private static final String S2W_SLEEPONLY_FILE = "/sys/android_touch/s2w_s2sonly";
 	private static final String INTELLIPLUG_FILE = "/sys/module/intelli_plug/parameters/intelli_plug_active";
@@ -111,6 +113,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		}
 		
 		Helpers.setPermissions(DT2W_FILE);
+                Helpers.setPermissions(DT2W2_FILE);
 		Helpers.setPermissions(DYNFSYNC_FILE);
 		Helpers.setPermissions(ECOMODE_FILE);
 		Helpers.setPermissions(FAUXSOUND_FILE);
@@ -148,6 +151,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mKernelCategory = (PreferenceCategory) findPreference("key_kernel_tweaks");
 		mRootScreen = (PreferenceScreen) findPreference("key_pref_screen");
 		mDoubleTap = (CustomCheckBoxPreference) findPreference("key_dt2w_switch");
+                mDoubleTap2 = (CustomCheckBoxPreference) findPreference("key_dt2w2_switch");
 		mSweep2wake = (CustomCheckBoxPreference) findPreference("key_s2w_switch");
 		mSweep2sleep = (CustomCheckBoxPreference) findPreference("key_s2ws_switch");
 		mIntelliPlug = (CustomCheckBoxPreference) findPreference("key_intelliplug_switch");
@@ -161,6 +165,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mCpuScheduler.setKey(SCHEDULER_FILE);
 		mCpuReadAhead.setKey(READ_AHEAD_FILE);
 		mDoubleTap.setKey(DT2W_FILE);
+                mDoubleTap.setKey(DT2W2_FILE);
 		mSweep2wake.setKey(S2W_FILE);
 		mSweep2sleep.setKey(S2W_SLEEPONLY_FILE);
 		mIntelliPlug.setKey(INTELLIPLUG_FILE);
@@ -178,6 +183,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mKernelDynFsync.setCategory(category);
 		mKernelFcharge.setCategory(category);
 		mDoubleTap.setCategory(category);
+                mDoubleTap2.setCategory(category);
 		mSweep2wake.setCategory(category);
 		mSweep2sleep.setCategory(category);
 		mIntelliPlug.setCategory(category);
@@ -215,6 +221,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mAdvancedScheduler.excludeFromDialog(true);
 		mAdvancedScheduler.hideBoot(true);
 		mDoubleTap.setTitleColor(color);
+                mDoubleTap2.setTitleColor(color);
 		mSweep2wake.setTitleColor(color);
 		mSweep2sleep.setTitleColor(color);
 		mIntelliPlug.setTitleColor(color);
@@ -286,6 +293,25 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 					value = "1";
 				} else {
 					cmd = "echo 0 > "+DT2W_FILE;
+					value = "0";
+				}
+				CMDProcessor.runSuCommand(cmd);
+				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
+				return true;
+			}
+		});
+
+                mDoubleTap2.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String cmd = null;
+				String value = null;
+				if (newValue.toString().equals("true")) {
+					cmd = "echo 1 > "+DT2W2_FILE;
+					value = "1";
+				} else {
+					cmd = "echo 0 > "+DT2W2_FILE;
 					value = "0";
 				}
 				CMDProcessor.runSuCommand(cmd);
@@ -466,6 +492,19 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			}else if(dtState.equals("0")) {
 				mDoubleTap.setChecked(false);
 				mDoubleTap.setValue("0");
+			}
+		}
+
+                if(!new File(DT2W2_FILE).exists()) {
+			mKernelCategory.removePreference(mDoubleTap2);
+		} else {
+			String dtState = Helpers.getFileContent(new File(DT2W2_FILE));
+			if(dtState.equals("1")) {
+				mDoubleTap2.setChecked(true);
+				mDoubleTap2.setValue("1");
+			}else if(dtState.equals("0")) {
+				mDoubleTap2.setChecked(false);
+				mDoubleTap2.setValue("0");
 			}
 		}
 
