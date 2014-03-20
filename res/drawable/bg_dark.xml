@@ -1,3 +1,2 @@
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/view_pager_background_texture"
-    android:tileMode="repeat" />
+    android:src="@drawable/background_holo_dark" />
