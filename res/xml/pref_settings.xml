@@ -156,14 +156,6 @@
             android:title="Init.d"
             app:cal_itemLayout="@layout/calendar_grid_item_color"
             app:cal_numColumns="5" />
-        <it.gmariotti.android.example.colorpicker.calendarstock.ColorPickerPreference
-            android:defaultValue="@android:color/white"
-            android:key="key_color_blur"
-            android:negativeButtonText="@null"
-            android:positiveButtonText="@null"
-            android:title="WP Blur"
-            app:cal_itemLayout="@layout/calendar_grid_item_color"
-            app:cal_numColumns="5" />
     </PreferenceCategory>
 
 </PreferenceScreen>

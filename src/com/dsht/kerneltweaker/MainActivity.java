@@ -93,7 +93,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		R.drawable.life_guard,
 		R.drawable.settings_two,
 		0,
-		R.drawable.heart,
+		R.drawable.eye,
 		0,
 		R.drawable.doc_zip,
 		R.drawable.backup,
@@ -101,7 +101,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 		0,
 		R.drawable.doc,
 		R.drawable.magic_wand,
-		R.drawable.eye,
 		0,
 		R.drawable.settings_one,
 		R.drawable.info
@@ -277,15 +276,17 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 			f = new InitD();
 			glo = new CpuGlossaryFragment();
 			break;
+                /*
 		case 20:
 			f = new WallpaperEffectsFragment();
 			glo = new CpuGlossaryFragment();
 			break;
-		case 22:
+                */
+		case 21:
 			f = new SettingsFragment();
 			glo = new CpuGlossaryFragment();
 			break;
-		case 23:
+		case 22:
 			f = new infos();
 			glo = new CpuGlossaryFragment();
 			//showCredits();

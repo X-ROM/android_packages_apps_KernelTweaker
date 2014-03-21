@@ -138,9 +138,11 @@ public class CustomArrayAdapter extends BaseAdapter {
 				case 19:
 					color = mPrefs.getInt(SettingsFragment.KEY_INIT, Color.parseColor("#FFFFFF"));
 					break;
+                                /*
 				case 20:
 					color = mPrefs.getInt(SettingsFragment.KEY_BLUR, Color.parseColor("#FFFFFF"));
 					break;
+                                */
 				}
 				text1.setTextColor(color);
 				image.setColorFilter(color);

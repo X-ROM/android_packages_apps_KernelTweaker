@@ -53,7 +53,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 	public static final String KEY_PERSONAL_CAT = "key_personal_category";
 	public static final String KEY_PROP = "key_color_prop";
 	public static final String KEY_INIT = "key_color_init";
-	public static final String KEY_BLUR = "key_color_blur";
+	//public static final String KEY_BLUR = "key_color_blur";
 	public static final String KEY_DEBUG = "key_debug";
 	public static final String KEY_SLOG = "key_slog";
 	public static final String LOG_FILE = Environment.getExternalStorageDirectory().getAbsolutePath()+"/KernelTweaker_log.txt";
@@ -76,7 +76,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 	private ColorPickerPreference mRecovery;
 	private ColorPickerPreference mProp;
 	private ColorPickerPreference mInit;
-	private ColorPickerPreference mBlur;
+	//private ColorPickerPreference mBlur;
 	private CheckBoxPreference mTheme;
 	private SharedPreferences mPrefs;
 	private PreferenceCategory mPersonalCat;
@@ -107,7 +107,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 
 		mProp = (ColorPickerPreference) findPreference(KEY_PROP);
 		mInit = (ColorPickerPreference) findPreference(KEY_INIT);
-		mBlur = (ColorPickerPreference) findPreference(KEY_BLUR);
+		//mBlur = (ColorPickerPreference) findPreference(KEY_BLUR);
 
 		mPersonalCat = (PreferenceCategory) findPreference(KEY_PERSONAL_CAT);
 
@@ -136,7 +136,7 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 		mRecovery.setOnPreferenceChangeListener(this);
 		mProp.setOnPreferenceChangeListener(this);
 		mInit.setOnPreferenceChangeListener(this);
-		mBlur.setOnPreferenceChangeListener(this);
+		//mBlur.setOnPreferenceChangeListener(this);
 		mLog.setOnPreferenceClickListener(this);
 		mRunLog.setOnPreferenceClickListener(this);
 
@@ -243,10 +243,12 @@ public class SettingsFragment extends PreferenceFragment implements OnPreference
 			MainActivity.mAdapter.notifyDataSetChanged();
 			return true;
 		}
+                /*
 		if(pref == mBlur) {
 			MainActivity.mAdapter.notifyDataSetChanged();
 			return true;
 		}
+                */
 		editor.commit();
 		return false;
 	}
