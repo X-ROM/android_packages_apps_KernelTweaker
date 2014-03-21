@@ -50,7 +50,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:key="key_kernel_tweaks"
-        android:title="Kernel Tweaks" >
+        android:title="Misc" >
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_dynfsync_switch"
             android:summary="Asyncronous Fsync. If enabled gives stock I/O and data integrity, if Disabled you will have more I/O but less data integrity"

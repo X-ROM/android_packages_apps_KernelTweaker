@@ -52,7 +52,7 @@
         <item>Gpu Parameters</item>
         <item>UV Table</item>
         <item>--Kernel Params</item>
-        <item>Kernel</item>
+        <item>Tweaks</item>
         <item>Low Memory Killer</item>
         <item>Virtual Machine</item>
         <item>--Set on boot</item>
@@ -64,9 +64,9 @@
         <item>--Extra</item>
         <item>Build.prop mods</item>
         <item>Init.d tweaks</item>
-        <item>--App Settings/infos</item>
+        <item>--App Settings/info</item>
         <item>Settings</item>
-        <item>Informations</item>
+        <item>Information</item>
     </string-array>
     <string-array name="menu_descs">
         <item>Frequencies time in state</item>
@@ -326,7 +326,7 @@ default value of 20 it means that if the CPU usage needs to be below
     </string-array>
     <string-array name="glo_uv_descs">
         <item>UnderVolt table allows you to change the voltage parameter of every frequency. This means that you can set, for every frequency, how much current the CPU 
-            must use. Lowering voltages means some battery saving, but you are warned! Lowering frequencies too much can make your device crash or freeze, so, proceed with little steps 
+            must use. Lowering voltages means some battery saving, but you are warned! Lowering frequencies too much can make your device crash or freeze, so proceed with little steps 
             until you find your ideal spot. Hit the \"Set on boot\" option ONLY after some tests or your device will freeze/crash on next reboot!</item>
     </string-array>
     <string-array name="glo_kernel_titles">
