@@ -14,7 +14,7 @@
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:text="@string/kernel_info" />
 
         <TextView
@@ -26,7 +26,7 @@
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:text="@string/cpu_info" />
 
         <TextView
@@ -38,7 +38,7 @@
         <TextView
             style="?android:attr/listSeparatorTextViewStyle"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:text="@string/mem_info" />
 
         <TextView

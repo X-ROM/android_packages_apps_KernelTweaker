@@ -94,7 +94,7 @@ public class CustomArrayAdapter extends BaseAdapter {
 				text1.setTextColor(color);
 				image.setColorFilter(color);
 			}else if(mPrefs.getBoolean(SettingsFragment.KEY_ENABLE_PERSONAL, false)) {
-				int color = Color.parseColor("#ff0099cc");
+				int color = Color.parseColor("#ff8c8b8b");
 				switch(position) {
 				case 1:
 					color = mPrefs.getInt(SettingsFragment.KEY_STAT, Color.parseColor("#FFFFFF"));
@@ -147,7 +147,7 @@ public class CustomArrayAdapter extends BaseAdapter {
 				text1.setTextColor(color);
 				image.setColorFilter(color);
 			}else {
-				int color = Color.parseColor("#ff0099cc");
+				int color = Color.parseColor("#ff8c8b8b");
 				text1.setTextColor(color);
 				image.setColorFilter(color);
 			}

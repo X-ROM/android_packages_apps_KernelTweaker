@@ -60,7 +60,7 @@ public class PresetsBaseAdapter extends BaseAdapter {
 			int color = mPrefs.getInt(SettingsFragment.KEY_GLOBAL_COLOR, Color.parseColor("#FFFFFF"));
 			title.setTextColor(color);
 		}else if(mPrefs.getBoolean(SettingsFragment.KEY_ENABLE_PERSONAL, false)) {
-			int col = MainActivity.mPrefs.getInt(SettingsFragment.KEY_LMK, Color.parseColor("#ff0099cc"));
+			int col = MainActivity.mPrefs.getInt(SettingsFragment.KEY_LMK, Color.parseColor("#ff8c8b8b"));
 			title.setTextColor(col);
 		} 
 		else {

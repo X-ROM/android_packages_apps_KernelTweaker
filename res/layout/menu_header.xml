@@ -9,6 +9,6 @@
         android:fontFamily="sans-serif-condensed"
         android:layout_marginTop="10dp"
         android:text="@null"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/darker_gray" />
 
 </LinearLayout>
