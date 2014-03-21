@@ -213,7 +213,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 
 		String[] t2wDelay = {"5000","10000","15000","20000","25000","30000","35000","40000","45000",
 				"50000","55000","65000","70000","75000","85000","90000","95000","100000","105000","110000",
-				"115000","120000","125000","130000","1350000","140000","145000","150000","155000","160000","165000","170000"};
+				"115000","120000","125000","130000","135000","140000","145000","150000","155000","160000","165000","170000"};
 
 		color = "";
 
@@ -529,6 +529,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 
 		if(!new File(T2W_FILE).exists()) {
 			mTouchCategory.removePreference(mTouch2wake);
+                        mTouchCategory.removePreference(mT2wDelay);
 		} else {
 			String t2wState = Helpers.getFileContent(new File(T2W_FILE));
 			if(t2wState.equals("1")) {
@@ -755,9 +756,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			CMDProcessor.runSuCommand("echo "+value+" > "+READ_AHEAD_FILE);
 			updateDb(pref, value, ((CustomListPreference) pref).isBootChecked());
 		}
-		if(!new File(T2W_DELAY_FILE).exists()) {
-			mTouchCategory.removePreference(mT2wDelay);
-                } else if (pref == mT2wDelay) {
+                if (pref == mT2wDelay) {
 			String value = (String) newValue;
 			mT2wDelay.setSummary(value);
 			mT2wDelay.setValue(value);

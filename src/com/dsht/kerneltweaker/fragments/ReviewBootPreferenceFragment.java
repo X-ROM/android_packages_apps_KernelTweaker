@@ -90,7 +90,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 			"2688", "2816", "2944", "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"};
 	String[] t2wDelay = {"5000","10000","15000","20000","25000","30000","35000","40000","45000",
 				"50000","55000","65000","70000","75000","85000","90000","95000","100000","105000","110000",
-				"115000","120000","125000","130000","1350000","140000","145000","150000","155000","160000","165000","170000"};
+				"115000","120000","125000","130000","135000","140000","145000","150000","155000","160000","165000","170000"};
 	private static final String GPU_FREQUENCIES_FILE = "/sys/class/kgsl/kgsl-3d0/gpu_available_frequencies";
 	private static final String SCHEDULER_FILE = "/sys/block/mmcblk0/queue/scheduler";
 	private static final String READ_AHEAD_FILE = "/sys/block/mmcblk0/queue/read_ahead_kb";
