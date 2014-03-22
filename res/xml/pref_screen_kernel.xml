@@ -20,8 +20,9 @@
             android:key="key_t2w_switch"
             android:summary="If enabled, you will be able to only turn on the screen if it times out"
             android:title="Touch 2 Wake " />
-        <com.dsht.kerneltweaker.CustomListPreference
+        <com.dsht.kerneltweaker.CustomPreference
             android:key="key_t2w_delay_switch"
+            android:summary=""
             android:title="Touch 2 Wake Delay" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_dt2w_switch"

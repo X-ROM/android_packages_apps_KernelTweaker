@@ -837,10 +837,10 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="pref_g_speed_summary">Uncap 3g speed</string>
     <string name="pref_gpu_title">GPU Acceleration</string>
     <string name="pref_gpu_summary">Enable hardware acceleration where the GPU controls the UI instead of the CPU</string>
-	<string name="pref_lcd_title">Change LCD density</string>
-	<string name="pref_lcd_summary">Set your desired LCD density</string>
-	<string name="pref_lcd_default">480</string>
-	<string name="pref_lcd_alt_summary">Screen density: %s</string>
+    <string name="pref_lcd_title">Change LCD density</string>
+    <string name="pref_lcd_summary">Set your desired LCD density</string>
+    <string name="pref_lcd_default">480</string>
+    <string name="pref_lcd_alt_summary">Screen density: %s</string>
     
     <!-- Init.d -->
     <string name="header_summary_init_d">@null</string>

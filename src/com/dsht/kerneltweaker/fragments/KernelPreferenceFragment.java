@@ -56,7 +56,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private CustomCheckBoxPreference mKernelF2w;
 	private CustomCheckBoxPreference mKernelFcharge;
 	private CustomCheckBoxPreference mTouch2wake;
-	private CustomListPreference mT2wDelay;
+	private CustomPreference mT2wDelay;
 	private CustomCheckBoxPreference mDoubleTap;
 	private CustomCheckBoxPreference mDoubleTap2;
 	private CustomCheckBoxPreference mSweep2wake;
@@ -159,7 +159,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mRootScreen = (PreferenceScreen) findPreference("key_pref_screen");
 		mTouchCategory = (PreferenceCategory) findPreference("key_touch_cat");
 		mTouch2wake = (CustomCheckBoxPreference) findPreference("key_t2w_switch");
-		mT2wDelay = (CustomListPreference) findPreference("key_t2w_delay_switch");
+		mT2wDelay = (CustomPreference) findPreference("key_t2w_delay_switch");
 		mDoubleTap = (CustomCheckBoxPreference) findPreference("key_dt2w_switch");
 		mDoubleTap2 = (CustomCheckBoxPreference) findPreference("key_dt2w2_switch");
 		mSweep2wake = (CustomCheckBoxPreference) findPreference("key_s2w_switch");
@@ -211,10 +211,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				"1280","1408","1536","1664","1792","1920","2048", "2176", "2304", "2432", "2560", 
 				"2688", "2816", "2944", "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"};
 
-		String[] t2wDelay = {"5000","10000","15000","20000","25000","30000","35000","40000","45000",
-				"50000","55000","65000","70000","75000","85000","90000","95000","100000","105000","110000",
-				"115000","120000","125000","130000","135000","140000","145000","150000","155000","160000","165000","170000"};
-
 		color = "";
 
 		if(MainActivity.mPrefs.getBoolean(SettingsFragment.KEY_ENABLE_GLOBAL, false)) {
@@ -256,17 +252,15 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mCpuScheduler.setEntryValues(schedulers);
 		mCpuReadAhead.setEntries(readAheadKb);
 		mCpuReadAhead.setEntryValues(readAheadKb);
-                mT2wDelay.setEntries(t2wDelay);
-		mT2wDelay.setEntryValues(t2wDelay);
 
 		mCpuScheduler.setSummary(Helpers.getCurrentScheduler());
 		mCpuReadAhead.setSummary(Helpers.getFileContent(new File(READ_AHEAD_FILE)));
-		mT2wDelay.setSummary(Helpers.getFileContent(new File(T2W_DELAY_FILE)));
+                mT2wDelay.setSummary(Helpers.getFileContent(new File(T2W_DELAY_FILE)));
 
 		mAdvancedScheduler.setOnPreferenceClickListener(this);
 		mCpuScheduler.setOnPreferenceChangeListener(this);
 		mCpuReadAhead.setOnPreferenceChangeListener(this);
-		mT2wDelay.setOnPreferenceChangeListener(this);
+		mT2wDelay.setOnPreferenceClickListener(this);
 		mVibration.setOnPreferenceClickListener(this);
 
 		mKernelFsync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -756,13 +750,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			CMDProcessor.runSuCommand("echo "+value+" > "+READ_AHEAD_FILE);
 			updateDb(pref, value, ((CustomListPreference) pref).isBootChecked());
 		}
-                if (pref == mT2wDelay) {
-			String value = (String) newValue;
-			mT2wDelay.setSummary(value);
-			mT2wDelay.setValue(value);
-			CMDProcessor.runSuCommand("echo "+value+" > "+T2W_DELAY_FILE);
-			updateDb(pref, value, ((CustomListPreference) pref).isBootChecked());
-		}
 		return true;
 	}
 
@@ -777,6 +764,34 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			// By hiding the main fragment, transparency isn't an issue
 			ft.addToBackStack("TAG");
 			ft.commit();
+		}
+                if(pref == mT2wDelay) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			View v = inflater.inflate(R.layout.dialog_layout, null, false);
+			final EditText et = (EditText) v.findViewById(R.id.et);
+			String val = pref.getSummary().toString();
+			et.setText(val);
+			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+			et.setGravity(Gravity.CENTER_HORIZONTAL);
+			List<DataItem> items = db.getAllItems();
+			builder.setView(v);
+			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					String value = et.getText().toString();
+					pref.setSummary(value);
+					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
+					updateDb(pref, value, ((CustomPreference) pref).isBootChecked());
+				}
+			} );
+			AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+			Window window = dialog.getWindow();
+			window.setLayout(800, LayoutParams.WRAP_CONTENT);
 		}
 		if(pref == mVibration) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
