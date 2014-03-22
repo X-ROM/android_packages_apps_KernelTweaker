@@ -40,6 +40,10 @@
             android:key="key_pwks_switch"
             android:summary="If enabled, using the powerkey to turn screen off will disable Sweep2Wake and DoubleTap 2 Wake "
             android:title="S2W + DT2W Powerkey suspend " />
+	<com.dsht.kerneltweaker.CustomPreference
+            android:key="key_wake_timeout_switch"
+            android:summary=""
+            android:title="Wake Timeout " />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_s2ws_switch"
             android:summary="If enabled, you will be able to only turn off the screen by swiping on navigation bar"

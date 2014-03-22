@@ -61,6 +61,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private CustomCheckBoxPreference mDoubleTap2;
 	private CustomCheckBoxPreference mSweep2wake;
 	private CustomCheckBoxPreference mPowerSuspend;
+	private CustomPreference mWakeTimeout;
 	private CustomCheckBoxPreference mSweep2sleep;
 	private CustomCheckBoxPreference mIntelliPlug;
 	private CustomCheckBoxPreference mEcoMode;
@@ -96,6 +97,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private static final String DT2W2_FILE = "/sys/devices/virtual/input/lge_touch/dt_wake_enabled";
 	private static final String S2W_FILE = "/sys/android_touch/sweep2wake";
 	private static final String PWKS_FILE = "/sys/module/qpnp_power_on/parameters/pwrkey_suspend";
+	private static final String WAKE_TIMEOUT_FILE = "/sys/android_touch/wake_timeout";
 	private static final String S2W_SLEEPONLY_FILE = "/sys/android_touch/s2w_s2sonly";
 	private static final String INTELLIPLUG_FILE = "/sys/module/intelli_plug/parameters/intelli_plug_active";
 	private static final String ECOMODE_FILE = "/sys/module/intelli_plug/parameters/eco_mode_active";
@@ -134,6 +136,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		Helpers.setPermissions(READ_AHEAD_FILE);
 		Helpers.setPermissions(S2W_FILE);
 		Helpers.setPermissions(PWKS_FILE);
+                Helpers.setPermissions(WAKE_TIMEOUT_FILE);
 		Helpers.setPermissions(S2W_SLEEPONLY_FILE);
 		Helpers.setPermissions(SCHEDULER_FILE);
 		Helpers.setPermissions(SPEAKER_BOOST_FILE);
@@ -167,6 +170,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mDoubleTap2 = (CustomCheckBoxPreference) findPreference("key_dt2w2_switch");
 		mSweep2wake = (CustomCheckBoxPreference) findPreference("key_s2w_switch");
 		mPowerSuspend = (CustomCheckBoxPreference) findPreference("key_pwks_switch");
+		mWakeTimeout = (CustomPreference) findPreference("key_wake_timeout_switch");
 		mSweep2sleep = (CustomCheckBoxPreference) findPreference("key_s2ws_switch");
 		mIntelliPlug = (CustomCheckBoxPreference) findPreference("key_intelliplug_switch");
 		mEcoMode = (CustomCheckBoxPreference) findPreference("key_ecomode_switch");
@@ -184,6 +188,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mDoubleTap2.setKey(DT2W2_FILE);
 		mSweep2wake.setKey(S2W_FILE);
 		mPowerSuspend.setKey(PWKS_FILE);
+		mWakeTimeout.setKey(WAKE_TIMEOUT_FILE);
 		mSweep2sleep.setKey(S2W_SLEEPONLY_FILE);
 		mIntelliPlug.setKey(INTELLIPLUG_FILE);
 		mEcoMode.setKey(ECOMODE_FILE);
@@ -205,6 +210,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mDoubleTap2.setCategory(category);
 		mSweep2wake.setCategory(category);
 		mPowerSuspend.setCategory(category);
+		mWakeTimeout.setCategory(category);
 		mSweep2sleep.setCategory(category);
 		mIntelliPlug.setCategory(category);
 		mEcoMode.setCategory(category);
@@ -248,6 +254,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mDoubleTap2.setTitleColor(color);
 		mSweep2wake.setTitleColor(color);
 		mPowerSuspend.setTitleColor(color);
+		mWakeTimeout.setTitleColor(color);
 		mSweep2sleep.setTitleColor(color);
 		mIntelliPlug.setTitleColor(color);
 		mEcoMode.setTitleColor(color);
@@ -263,11 +270,13 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mCpuScheduler.setSummary(Helpers.getCurrentScheduler());
 		mCpuReadAhead.setSummary(Helpers.getFileContent(new File(READ_AHEAD_FILE)));
                 mT2wDelay.setSummary(Helpers.getFileContent(new File(T2W_DELAY_FILE)));
+		mWakeTimeout.setSummary(Helpers.getFileContent(new File(T2W_DELAY_FILE)));
 
 		mAdvancedScheduler.setOnPreferenceClickListener(this);
 		mCpuScheduler.setOnPreferenceChangeListener(this);
 		mCpuReadAhead.setOnPreferenceChangeListener(this);
 		mT2wDelay.setOnPreferenceClickListener(this);
+		mWakeTimeout.setOnPreferenceClickListener(this);
 		mVibration.setOnPreferenceClickListener(this);
 
 		mKernelFsync.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -638,6 +647,12 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				mKernelF2w.setValue("0");
 			}
 		}
+
+		if(new File(WAKE_TIMEOUT_FILE).exists()){
+			mWakeTimeout.setSummary(Helpers.getFileContent(new File(WAKE_TIMEOUT_FILE)));
+		}else {
+			mTouchCategory.removePreference(mWakeTimeout);
+		}
 		
 
 		if(!new File(S2W_SLEEPONLY_FILE).exists()) {
@@ -804,6 +819,34 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			ft.commit();
 		}
                 if(pref == mT2wDelay) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+			LayoutInflater inflater = getActivity().getLayoutInflater();
+			View v = inflater.inflate(R.layout.dialog_layout, null, false);
+			final EditText et = (EditText) v.findViewById(R.id.et);
+			String val = pref.getSummary().toString();
+			et.setText(val);
+			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
+			et.setGravity(Gravity.CENTER_HORIZONTAL);
+			List<DataItem> items = db.getAllItems();
+			builder.setView(v);
+			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					String value = et.getText().toString();
+					pref.setSummary(value);
+					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
+					updateDb(pref, value, ((CustomPreference) pref).isBootChecked());
+				}
+			} );
+			AlertDialog dialog = builder.create();
+			dialog.show();
+			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+			Window window = dialog.getWindow();
+			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+		}
+                if(pref == mWakeTimeout) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 			LayoutInflater inflater = getActivity().getLayoutInflater();
 			View v = inflater.inflate(R.layout.dialog_layout, null, false);
