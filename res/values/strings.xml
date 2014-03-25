@@ -1224,4 +1224,44 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="thermal_mid_freq">Mid limit frequency</string>
     <string name="thermal_max_freq">High limit frequency</string>
 
+    <!-- IO Scheduler -->
+    <string name="sched_category">I/O Scheduler and TCP Control</string>
+    <string name="io_title">I/O Scheduler</string>
+    <string name="read_ahead_title">Read Ahead size</string>
+    <string name="sched_tuning_title">Scheduler Tuning</string>
+    <string name="sched_tuning_summary">Fine tune I/O Scheduler parameters</string>
+
+    <!-- Touch control -->
+    <string name="touch_control_cat">Touch control</string>
+    <string name="t2w_title">Touch 2 Wake</string>
+    <string name="t2w_summary">If enabled, you will be able to only turn on the screen if it times out</string>
+    <string name="t2w_delay_title">Touch 2 Wake Delay</string>
+    <string name="dt2w_title">DoubleTap 2 Wake</string>
+    <string name="dt2w_summary">If enabled, you will be able to wake your device with a double tap on the screen</string>
+    <string name="s2w_title">Sweep 2 Wake</string>
+    <string name="s2w_summary">If enabled, you will be able to wake or turn off the screen by swiping on navigation bar area</string>
+    <string name="pwks_title">S2W + DT2W Powerkey suspend</string>
+    <string name="pwks_summary">If enabled, using the powerkey to turn screen off will disable Sweep2Wake and DoubleTap 2 Wake</string>
+    <string name="wake_timeout_title">Mid limit frequency</string>
+
+    <!-- Fast Charge -->
+    <string name="misc_cat">Misc</string>
+    <string name="fast_charge_title">Fast Charge</string>
+    <string name="fast_charge_summary">If enabled, device will charge faster when connected through USB</string>
+
+    <!-- Vibration control -->
+    <string name="vibration_title">Vibration Intensity</string>
+
+    <!-- Fsync -->
+    <string name="dfsync_title">Dynamic Fsync</string>
+    <string name="dfsync_summary">Asyncronous Fsync. If enabled gives stock I/O and data integrity, if Disabled you will have more I/O but less data integrity</string>
+    <string name="fsync_title">Fsync</string>
+    <string name="fsync_summary">If enabled gives stock I/O and data integrity, if Disabled you will have more I/O but less data integrity</string>
+
+    <!-- Intelliplug and Eco mode -->
+    <string name="intelliplug_title">Intelli-Plug</string>
+    <string name="intelliplug_summary">In-kernel solution for MPDecision\n(should save battery)</string>
+    <string name="eco_mode_title">Eco mode</string>
+    <string name="eco_mode_summary">Child of Intelli-plug, will try to use only two cores without loosing performance</string>
+
 </resources>

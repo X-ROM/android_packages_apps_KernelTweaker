@@ -52,8 +52,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 
 	private CustomCheckBoxPreference mKernelFsync;
 	private CustomCheckBoxPreference mKernelDynFsync;
-	private CustomCheckBoxPreference mKernelF2s;
-	private CustomCheckBoxPreference mKernelF2w;
 	private CustomCheckBoxPreference mKernelFcharge;
 	private CustomCheckBoxPreference mTouch2wake;
 	private CustomPreference mT2wDelay;
@@ -62,7 +60,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private CustomCheckBoxPreference mSweep2wake;
 	private CustomCheckBoxPreference mPowerSuspend;
 	private CustomPreference mWakeTimeout;
-	private CustomCheckBoxPreference mSweep2sleep;
 	private CustomCheckBoxPreference mIntelliPlug;
 	private CustomCheckBoxPreference mEcoMode;
 	private CustomPreference mVibration;
@@ -98,14 +95,11 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private static final String S2W_FILE = "/sys/android_touch/sweep2wake";
 	private static final String PWKS_FILE = "/sys/module/qpnp_power_on/parameters/pwrkey_suspend";
 	private static final String WAKE_TIMEOUT_FILE = "/sys/android_touch/wake_timeout";
-	private static final String S2W_SLEEPONLY_FILE = "/sys/android_touch/s2w_s2sonly";
 	private static final String INTELLIPLUG_FILE = "/sys/module/intelli_plug/parameters/intelli_plug_active";
 	private static final String ECOMODE_FILE = "/sys/module/intelli_plug/parameters/eco_mode_active";
 	private static final String DYNFSYNC_FILE = "/sys/kernel/dyn_fsync/Dyn_fsync_active";
 	private static final String FAUXSOUND_FILE = "/sys/kernel/sound_control_3";
 	private static final String VIBRATION_FILE = "/sys/class/timed_output/vibrator/amp";
-	private static final String F2S_FILE = "sys/devices/virtual/htc_g_sensor/g_sensor/flick2sleep";
-	private static final String F2W_FILE = "sys/devices/virtual/htc_g_sensor/g_sensor/flick2wake";
 	
 	
 	private String color;
@@ -137,7 +131,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		Helpers.setPermissions(S2W_FILE);
 		Helpers.setPermissions(PWKS_FILE);
                 Helpers.setPermissions(WAKE_TIMEOUT_FILE);
-		Helpers.setPermissions(S2W_SLEEPONLY_FILE);
 		Helpers.setPermissions(SCHEDULER_FILE);
 		Helpers.setPermissions(SPEAKER_BOOST_FILE);
 		Helpers.setPermissions(TEMP_FILE);
@@ -145,8 +138,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		Helpers.setPermissions(VOLUME_BOOST_FILE);
 		Helpers.setPermissions(TCP_CURRENT);
 		Helpers.setPermissions(TCP_OPTIONS);
-		Helpers.setPermissions(F2S_FILE);
-		Helpers.setPermissions(F2W_FILE);
 		
 
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -154,8 +145,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mSchedCategory = (PreferenceCategory) findPreference("key_sched_cat");
 		mKernelFsync = (CustomCheckBoxPreference) findPreference("key_fsync_switch");
 		mKernelDynFsync = (CustomCheckBoxPreference) findPreference("key_dynfsync_switch");
-		mKernelF2s = (CustomCheckBoxPreference) findPreference("key_f2s_switch");
-		mKernelF2w = (CustomCheckBoxPreference) findPreference("key_f2w_switch");
 		mKernelFcharge = (CustomCheckBoxPreference) findPreference("key_fcharge_switch");
 		mCpuScheduler = (CustomListPreference) findPreference("key_cpu_sched");
 		mAdvancedScheduler = (CustomPreference) findPreference("key_advanced_scheduler");
@@ -171,7 +160,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mSweep2wake = (CustomCheckBoxPreference) findPreference("key_s2w_switch");
 		mPowerSuspend = (CustomCheckBoxPreference) findPreference("key_pwks_switch");
 		mWakeTimeout = (CustomPreference) findPreference("key_wake_timeout_switch");
-		mSweep2sleep = (CustomCheckBoxPreference) findPreference("key_s2ws_switch");
 		mIntelliPlug = (CustomCheckBoxPreference) findPreference("key_intelliplug_switch");
 		mEcoMode = (CustomCheckBoxPreference) findPreference("key_ecomode_switch");
 		mVibration = (CustomPreference) findPreference("key_vibration");
@@ -189,12 +177,9 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mSweep2wake.setKey(S2W_FILE);
 		mPowerSuspend.setKey(PWKS_FILE);
 		mWakeTimeout.setKey(WAKE_TIMEOUT_FILE);
-		mSweep2sleep.setKey(S2W_SLEEPONLY_FILE);
 		mIntelliPlug.setKey(INTELLIPLUG_FILE);
 		mEcoMode.setKey(ECOMODE_FILE);
 		mVibration.setKey(VIBRATION_FILE);
-		mKernelF2s.setKey(F2S_FILE);
-		mKernelF2w.setKey(F2W_FILE);
 
 		mCpuScheduler.setKey(SCHEDULER_FILE);
 		mCpuReadAhead.setKey(READ_AHEAD_FILE);
@@ -211,12 +196,9 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mSweep2wake.setCategory(category);
 		mPowerSuspend.setCategory(category);
 		mWakeTimeout.setCategory(category);
-		mSweep2sleep.setCategory(category);
 		mIntelliPlug.setCategory(category);
 		mEcoMode.setCategory(category);
 		mVibration.setCategory(category);
-		mKernelF2s.setCategory(category);
-		mKernelF2w.setCategory(category);
 
 		String[] schedulers = Helpers.getAvailableSchedulers();
 		String[] readAheadKb = {"128","256","384","512","640","768","896","1024","1152",
@@ -255,12 +237,9 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mSweep2wake.setTitleColor(color);
 		mPowerSuspend.setTitleColor(color);
 		mWakeTimeout.setTitleColor(color);
-		mSweep2sleep.setTitleColor(color);
 		mIntelliPlug.setTitleColor(color);
 		mEcoMode.setTitleColor(color);
 		mVibration.setTitleColor(color);
-		mKernelF2s.setTitleColor(color);
-		mKernelF2w.setTitleColor(color);
 
 		mCpuScheduler.setEntries(schedulers);
 		mCpuScheduler.setEntryValues(schedulers);
@@ -406,64 +385,6 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				} else {
 					cmd = "echo N > "+PWKS_FILE;
 					value = "N";
-				}
-				CMDProcessor.runSuCommand(cmd);
-				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
-				return true;
-			}
-		});
-
-		mSweep2sleep.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				String cmd = null;
-				String value = null;
-				if (newValue.toString().equals("true")) {
-					cmd = "echo 1 > "+S2W_SLEEPONLY_FILE;
-					value ="1";
-				} else {
-					cmd = "echo 0 > "+S2W_SLEEPONLY_FILE;
-					value = "0";
-				}
-				CMDProcessor.runSuCommand(cmd);
-				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
-				return true;
-			}
-		});
-		
-		
-		mKernelF2s.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				String cmd = null;
-				String value = null;
-				if (newValue.toString().equals("true")) {
-					cmd = "echo 1 > "+F2S_FILE;
-					value = "1";
-				} else {
-					cmd = "echo 0 > "+F2S_FILE;
-					value = "0";
-				}
-				CMDProcessor.runSuCommand(cmd);
-				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
-				return true;
-			}
-		});
-
-		mKernelF2w.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				String cmd = null;
-				String value = null;
-				if (newValue.toString().equals("true")) {
-					cmd = "echo 1 > "+F2W_FILE;
-					value = "1";
-				} else {
-					cmd = "echo 0 > "+F2W_FILE;
-					value = "0";
 				}
 				CMDProcessor.runSuCommand(cmd);
 				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
@@ -620,52 +541,12 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				mPowerSuspend.setChecked(false);
 				mPowerSuspend.setValue("N");
 			}
-		}		
-		
-		if(!new File(F2S_FILE).exists()) {
-			mTouchCategory.removePreference(mKernelF2s);
-		} else {
-			String dtState = Helpers.getFileContent(new File(F2S_FILE));
-			if(dtState.equals("1")) {
-				mKernelF2s.setChecked(true);
-				mKernelF2s.setValue("1");
-			}else if(dtState.equals("0")) {
-				mKernelF2s.setChecked(false);
-				mKernelF2s.setValue("0");
-			}
-		}
-		
-		if(!new File(F2W_FILE).exists()) {
-			mTouchCategory.removePreference(mKernelF2w);
-		} else {
-			String dtState = Helpers.getFileContent(new File(F2W_FILE));
-			if(dtState.equals("1")) {
-				mKernelF2w.setChecked(true);
-				mKernelF2w.setValue("1");
-			}else if(dtState.equals("0")) {
-				mKernelF2w.setChecked(false);
-				mKernelF2w.setValue("0");
-			}
 		}
 
 		if(new File(WAKE_TIMEOUT_FILE).exists()){
 			mWakeTimeout.setSummary(Helpers.getFileContent(new File(WAKE_TIMEOUT_FILE)));
 		}else {
 			mTouchCategory.removePreference(mWakeTimeout);
-		}
-		
-
-		if(!new File(S2W_SLEEPONLY_FILE).exists()) {
-			mTouchCategory.removePreference(mSweep2sleep);
-		} else {
-			String s2wsState = Helpers.getFileContent(new File(S2W_SLEEPONLY_FILE));
-			if(s2wsState.equals("1")) {
-				mSweep2sleep.setChecked(true);
-				mSweep2sleep.setValue("1");
-			}else if(s2wsState.equals("0")) {
-				mSweep2sleep.setChecked(false);
-				mSweep2sleep.setValue("0");
-			}
 		}
 
 		if(!new File(FCHARGE_FILE).exists()) {

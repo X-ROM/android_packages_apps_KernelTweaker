@@ -1,90 +1,84 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="key_pref_screen" >
 
-    <PreferenceCategory android:title="I/O Scheduler and TCP Control"
+    <PreferenceCategory 
+        android:title="@string/sched_category"
         android:key="key_sched_cat" >
         <com.dsht.kerneltweaker.CustomListPreference
             android:key="key_cpu_sched"
-            android:title="I/O Scheduler" />
+            android:title="@string/io_title" />
         <com.dsht.kerneltweaker.CustomListPreference
             android:key="key_cpu_readahead"
-            android:title="Read Ahead size" />
+            android:title="@string/read_ahead_title" />
         <com.dsht.kerneltweaker.CustomPreference
             android:key="key_advanced_scheduler"
-            android:summary="Fine tune I/O Scheduler parameters"
-            android:title="Scheduler Tuning" />
+            android:summary="@string/sched_tuning_summary"
+            android:title="@string/sched_tuning_title" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="Touch Control"
+
+    <PreferenceCategory 
+        android:title="@string/touch_control_cat"
         android:key="key_touch_cat" >
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_t2w_switch"
-            android:summary="If enabled, you will be able to only turn on the screen if it times out"
-            android:title="Touch 2 Wake " />
+            android:summary="@string/t2w_summary"
+            android:title="@string/t2w_title" />
         <com.dsht.kerneltweaker.CustomPreference
             android:key="key_t2w_delay_switch"
             android:summary=""
-            android:title="Touch 2 Wake Delay " />
+            android:title="@string/t2w_delay_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_dt2w_switch"
-            android:summary="If enabled, you will be able to wake your device with a double tap on the screen"
-            android:title="DoubleTap 2 Wake " />
+            android:summary="@string/dt2w_summary"
+            android:title="@string/dt2w_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_dt2w2_switch"
-            android:summary="If enabled, you will be able to wake your device with a double tap on the screen"
-            android:title="DoubleTap 2 Wake " />
+            android:summary="@string/dt2w_summary"
+            android:title="@string/dt2w_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_s2w_switch"
-            android:summary="If enabled, you will be able to wake or turn off the screen by swiping on navigation bar area"
-            android:title="Sweep 2 Wake " />
+            android:summary="@string/dt2w_summary"
+            android:title="@string/dt2w_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_pwks_switch"
-            android:summary="If enabled, using the powerkey to turn screen off will disable Sweep2Wake and DoubleTap 2 Wake "
-            android:title="S2W + DT2W Powerkey suspend " />
+            android:summary="@string/pwks_summary"
+            android:title="@string/pwks_title" />
 	<com.dsht.kerneltweaker.CustomPreference
             android:key="key_wake_timeout_switch"
             android:summary=""
-            android:title="Wake Timeout " />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_s2ws_switch"
-            android:summary="If enabled, you will be able to only turn off the screen by swiping on navigation bar"
-            android:title="Sweep 2 Sleep " />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_f2w_switch"
-            android:summary="If enabled, you will be able to only turn off the screen by swiping on navigation bar"
-            android:title="Flick 2 Wake " />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_f2s_switch"
-            android:summary="If enabled, you will be able to only turn off the screen by swiping on navigation bar"
-            android:title="Flick 2 Sleep " />
+            android:title="@string/wake_timeout_title" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="key_kernel_tweaks"
-        android:title="Misc" >
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_dynfsync_switch"
-            android:summary="Asyncronous Fsync. If enabled gives stock I/O and data integrity, if Disabled you will have more I/O but less data integrity"
-            android:title="Dynamic Fsync" />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_fsync_switch"
-            android:summary="If enabled gives stock I/O and data integrity, if Disabled you will have more I/O but less data integrity"
-            android:title="Fsync" />
+        android:title="@string/misc_cat" >
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_fcharge_switch"
-            android:summary="If enabled, device will charge faster when connected through USB"
-            android:title="Fast Charge" />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_intelliplug_switch"
-            android:summary="In-kernel solution for MPDecision\n(should save battery)"
-            android:title="Intelli-Plug" />
-        <com.dsht.kerneltweaker.CustomCheckBoxPreference
-            android:key="key_ecomode_switch"
-            android:summary="Child of Intelli-plug, will try to use only two cores without loosing performance"
-            android:title="Eco mode" />
+            android:summary="@string/fast_charge_summary"
+            android:title="@string/fast_charge_title" />
         <com.dsht.kerneltweaker.CustomPreference
             android:key="key_vibration"
             android:summary=""
-            android:title="Vibration Intensity" />
+            android:title="@string/vibration_title" />
+
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_dynfsync_switch"
+            android:summary="@string/dfsync_summary"
+            android:title="@string/dfsync_title" />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_fsync_switch"
+            android:summary="@string/fsync_summary"
+            android:title="@string/fsync_title" />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_intelliplug_switch"
+            android:summary="@string/intelliplug_summary"
+            android:title="@string/intelliplug_title" />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_ecomode_switch"
+            android:summary="@string/eco_mode_summary"
+            android:title="@string/eco_mode_title" />
     </PreferenceCategory>
+
     <PreferenceCategory
         android:key="key_sound_category"
         android:title="Sound Tweaks" >
