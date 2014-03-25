@@ -64,6 +64,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	private PreferenceCategory mSched;
 	private PreferenceCategory mQuiet;
 	private PreferenceCategory mVm;
+	private PreferenceCategory mMpdecision;
 
 	private static final String cpuCat = "cpu";
 	private static final String gpuCat = "gpu";
@@ -74,6 +75,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	private static final String SchedCat ="scheduler";
 	private static final String QuietCat ="cpuquiet";
 	private static final String vmCat = "vm";
+	private static final String mpdecisionCat = "mpdecision";
 
 	private ListView listView;
 	private SwipeDismissListViewTouchListener touchListener;
@@ -85,9 +87,14 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	String[] schedulers;
 	String[] cpuquiet_govs;
 	String[] availTCP;
+
 	String[] readAheadKb = {"128","256","384","512","640","768","896","1024","1152",
 			"1280","1408","1536","1664","1792","1920","2048", "2176", "2304", "2432", "2560", 
 			"2688", "2816", "2944", "3072", "3200", "3328", "3456", "3584", "3712", "3840", "3968", "4096"};
+
+	String[] maxCpu = {"1","2","3","4"};
+	String[] minCpu = {"1","2","3","4"};
+
 	private static final String GPU_FREQUENCIES_FILE = "/sys/class/kgsl/kgsl-3d0/gpu_available_frequencies";
 	private static final String SCHEDULER_FILE = "/sys/block/mmcblk0/queue/scheduler";
 	private static final String READ_AHEAD_FILE = "/sys/block/mmcblk0/queue/read_ahead_kb";
@@ -95,7 +102,8 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	private static final String CPUQUIET_FILE = "/sys/devices/system/cpu/cpuquiet/current_governor";
 	private static final String CPUQUIET_GOVERNORS = "/sys/devices/system/cpu/cpuquiet/available_governors";
 	private static final String TCP_OPTIONS = "sysctl net.ipv4.tcp_available_congestion_control";
-
+	private static final String MAX_CPU_FILE = "/sys/kernel/msm_mpdecision/conf/max_cpus";
+	private static final String MIN_CPU_FILE = "/sys/kernel/msm_mpdecision/conf/min_cpus";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +120,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		mSched = (PreferenceCategory) findPreference("cat_sched");
 		mQuiet = (PreferenceCategory) findPreference("cat_quiet");
 		mVm= (PreferenceCategory) findPreference("cat_vm");
+		mMpdecision = (PreferenceCategory) findPreference("cat_mpdecision");
 		setHasOptionsMenu(true);
 
 		Helpers.setPermissions(CPUQUIET_FILE);
@@ -119,6 +128,8 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		Helpers.setPermissions(READ_AHEAD_FILE);
 		Helpers.setPermissions(CPUQUIET_DIR);
 		Helpers.setPermissions(CPUQUIET_GOVERNORS);
+		Helpers.setPermissions(MAX_CPU_FILE);
+		Helpers.setPermissions(MIN_CPU_FILE);
 
 		frequencies = Helpers.getFrequencies();
 		names = Helpers.getFrequenciesNames();
@@ -206,8 +217,18 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 					String color = getColor(7);
 					createPreference(mVm,fPath, fName, value, color, category, false);
 				}
-
-			}
+				else if(category.equals(mpdecisionCat)) {
+					String color = getColor(12);
+					if(fName.contains("Max CPU's")) {
+						createListPreference(mMpdecision,fPath, fName, value, maxCpu, maxCpu, color, category, false);
+					}else if(fName.contains("Min CPU's")) {
+						createListPreference(mMpdecision,fPath, fName, value, minCpu, minCpu, color, category, false);
+				}
+				else {
+					createPreference(mMpdecision,fPath, fName, value, color, category, false);
+				}
+			   }
+		      }
 		} 
 
 		if(vddItems.size() != 0) {
@@ -441,6 +462,9 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		}
 		if(mVm.getPreferenceCount()==0) {
 			mRoot.removePreference(mVm);
+		}
+		if(mMpdecision.getPreferenceCount()==0) {
+			mRoot.removePreference(mMpdecision);
 		}
 	}
 

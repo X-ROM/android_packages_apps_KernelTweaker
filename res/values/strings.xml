@@ -1188,4 +1188,21 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
         <item>4</item>
     </string-array>
 
+    <!-- Mpdecision -->
+    <string name="mpdecision_category">MSM mpdecision and thermal</string>
+    <string name="mpdecision_title">Mpdecision</string>
+    <string name="mpdecision_summary">In kernel hotplug control</string>
+    <string name="mpdec_general">General</string>
+    <string name="mpdec_enabled">Enable hotplug</string>
+    <string name="mpdec_min_cpu">Minimum CPUs online</string>
+    <string name="mpdec_max_cpu">Maximum CPUs online</string>
+    <string name="mpdec_scroff_single">Screen off single core</string>
+    <string name="mpdec_scroff_single_summary">Use only one core when the screen is off</string>
+    <string name="mpdec_touchboost">Touch boost</string>
+    <string name="mpdec_touchboost_summary">Touching the screen will boost the cpu for better responsiveness</string>
+    <string name="mpdec_boost_time">Touch boost time</string>
+    <string name="mpdec_advanced_category">Advanced</string>
+    <string name="mpdec_advanced">Advanced settings</string>
+    <string name="mpdec_advanced_summary">View or change advanced hotplug settings</string>
+
 </resources>

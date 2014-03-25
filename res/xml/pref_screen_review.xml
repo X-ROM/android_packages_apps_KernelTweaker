@@ -18,6 +18,10 @@
         android:title="Kernel " >
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="cat_mpdecision"
+        android:title="Mpdecision " >
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="cat_lmk"
         android:title="Low memory killer" >
     </PreferenceCategory>

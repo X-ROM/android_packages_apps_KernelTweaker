@@ -1,0 +1,45 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="key_pref_screen" >
+
+    <PreferenceCategory
+        android:key="key_mpdecision_cat"
+        android:title="@string/mpdec_general" >
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_enabled"
+            android:title="@string/mpdec_enabled" />
+        <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_max_cpu"
+            android:summary=""
+            android:title="@string/mpdec_min_cpu" />
+        <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_min_cpu"
+            android:summary=""
+            android:title="@string/mpdec_max_cpu" />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_scroff_single_core"
+            android:summary="@string/mpdec_scroff_single_summary"
+            android:title="@string/mpdec_scroff_single" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="key_mpdecision_cat"
+        android:title="@string/mpdec_touchboost" >
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_touch_boost"
+            android:summary="@string/mpdec_touchboost_summary"
+            android:title="@string/mpdec_touchboost" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_boost_time"
+            android:summary=""
+            android:title="@string/mpdec_boost_time" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="key_mpdecision_cat"
+        android:title="@string/mpdec_advanced_category" >
+            <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_mpdec_advanced"
+            android:summary="@string/mpdec_advanced_summary"
+            android:title="@string/mpdec_advanced" />
+    </PreferenceCategory>
+</PreferenceScreen>

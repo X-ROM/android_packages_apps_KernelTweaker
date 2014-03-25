@@ -40,6 +40,7 @@ AbsListView.MultiChoiceModeListener {
 	PreferenceCategory mSched;
 	PreferenceCategory mQuiet;
 	PreferenceCategory mVm;
+	PreferenceCategory mMpdecision;
 	DatabaseHandler db;
 	VddDatabaseHandler VddDb;
 	boolean delete;
@@ -55,6 +56,7 @@ AbsListView.MultiChoiceModeListener {
 	private static final String SchedCat ="scheduler";
 	private static final String QuietCat ="cpuquiet";
 	private static final String vmCat ="vm";
+	private static final String mpdecisionCat ="mpdecision";
 
 	public ListViewMultiChoiceModeListener(Context mContext,Activity host, ListView lv, 
 			PreferenceScreen mRoot,
@@ -174,6 +176,9 @@ AbsListView.MultiChoiceModeListener {
 						}
 						if(pref.getCategory().equals(vmCat)) {
 							mVm.removePreference(pref);
+						}
+						if(pref.getCategory().equals(mpdecisionCat)) {
+							mMpdecision.removePreference(pref);
 						}
 						if(pref.getTitle().toString().contains("VDD")) {
 							VddDb.deleteAllItems();
@@ -339,6 +344,9 @@ AbsListView.MultiChoiceModeListener {
 		}
 		if(mVm.getPreferenceCount() == 0) {
 			mRoot.removePreference(mVm);
+		}
+		if(mMpdecision.getPreferenceCount() == 0) {
+			mRoot.removePreference(mMpdecision);
 		}
 	}
 }

@@ -57,6 +57,8 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 	private CustomListPreference mCpuquiet;
 	private CustomPreference mAdvancedCpuquiet;
 	private PreferenceCategory mAdvancedCategory;
+	private PreferenceCategory mMpdecisionCategory;
+	private CustomPreference mMpdecision;
 	private PreferenceScreen mRoot;
 	private static final String MAX_FREQ_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 	private static final String GOVERNOR_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
@@ -65,6 +67,7 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 	private static final String CPUQUIET_DIR = "/sys/devices/system/cpu/cpuquiet";
 	private static final String CPUQUIET_FILE = "/sys/devices/system/cpu/cpuquiet/current_governor";
 	private static final String CPUQUIET_GOVERNORS = "/sys/devices/system/cpu/cpuquiet/available_governors";
+	private static final String MPDECISION_FILE = "/sys/kernel/msm_mpdecision";
 	private static final String category = "cpu";
 	private DatabaseHandler db = MainActivity.db;
 
@@ -97,8 +100,11 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mAdvancedCpuquiet = (CustomPreference) findPreference("key_advanced_cpuquiet");
 		mCpuquiet = (CustomListPreference) findPreference("key_cpuquiet");
 		mAdvancedCategory = (PreferenceCategory) findPreference("key_advanced");
+		mMpdecisionCategory = (PreferenceCategory) findPreference("key_mpdecision_cat");
+		mMpdecision = (CustomPreference) findPreference("key_mpdecision");
 		mAdvancedGovernor.setOnPreferenceClickListener(this);
 		mAdvancedCpuquiet.setOnPreferenceClickListener(this);
+		mMpdecision.setOnPreferenceClickListener(this);
 
 		if(!new File(CPUQUIET_DIR).exists()) {
 			mAdvancedCategory.removePreference(mAdvancedCpuquiet);
@@ -122,6 +128,7 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mAdvancedGovernor.setTitleColor(color);
 		mCpuquiet.setTitleColor(color);
 		mAdvancedCpuquiet.setTitleColor(color);
+		mMpdecision.setTitleColor(color);
 
 		mCpuMaxFreq.setCategory(category);
 		mCpuMinFreq.setCategory(category);
@@ -132,7 +139,6 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mCpuMinFreq.setKey(MIN_FREQ_FILE);
 		mCpuGovernor.setKey(GOVERNOR_FILE);
 		mCpuquiet.setKey(CPUQUIET_FILE);
-
 
 		String[] frequencies = Helpers.getFrequencies();
 		String[] governors = Helpers.getGovernors();
@@ -186,10 +192,15 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 
 		if(mHotPlugCategory.getPreferenceCount() == 0) {
 			mRoot.removePreference(mHotPlugCategory);
+		} 
+
+		if(!new File(MPDECISION_FILE).exists()) {
+			mRoot.removePreference(mMpdecisionCategory);
 		}
 
 		mAdvancedCpuquiet.hideBoot(true);
 		mAdvancedGovernor.hideBoot(true);
+		mMpdecision.hideBoot(true);
 		setRetainInstance(true);
 	}
 
@@ -247,6 +258,9 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		}
 		if(pref == mAdvancedCpuquiet) {
 			f = new CpuquietGovernorPreferenceFragment();
+		}
+		if(pref == mMpdecision) {
+			f = new MpdecisionPreferenceFragment();
 		}
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		// This adds the newly created Preference fragment to my main layout, shown below
