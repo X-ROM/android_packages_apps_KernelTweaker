@@ -22,6 +22,10 @@
         android:title="Mpdecision " >
     </PreferenceCategory>
     <PreferenceCategory
+        android:key="cat_thermal"
+        android:title="Thermal " >
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="cat_lmk"
         android:title="Low memory killer" >
     </PreferenceCategory>

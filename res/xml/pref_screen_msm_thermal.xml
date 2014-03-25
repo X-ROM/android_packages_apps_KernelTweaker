@@ -1,0 +1,59 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="key_pref_screen" >
+
+    <PreferenceCategory
+        android:key="key_thermal_cat"
+        android:title="@string/thermal_general" >
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_enabled"
+            android:summary="@string/thermal_enabled_summary"
+            android:title="@string/thermal_enabled" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_shutdown_temp"
+            android:summary=""
+            android:title="@string/thermal_shutdown" />       
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_low_limit"
+            android:summary=""
+            android:title="@string/thermal_low_limit" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_low_limit_clear"
+            android:summary=""
+            android:title="@string/thermal_low_limit_clear" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_mid_limit"
+            android:summary=""
+            android:title="@string/thermal_mid_limit" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_mid_limit_clear"
+            android:summary=""
+            android:title="@string/thermal_mid_limit_clear" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_max_limit"
+            android:summary=""
+            android:title="@string/thermal_max_limit" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_max_limit_clear"
+            android:summary=""
+            android:title="@string/thermal_max_limit_clear" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_thermal_check"
+            android:summary=""
+            android:title="@string/thermal_check" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="key_thermal_cat"
+        android:title="@string/thermal_freq" >
+        <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_low_freq"
+            android:title="@string/thermal_low_freq" />
+        <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_mid_freq"
+            android:title="@string/thermal_mid_freq" />
+        <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_max_freq"
+            android:title="@string/thermal_max_freq" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

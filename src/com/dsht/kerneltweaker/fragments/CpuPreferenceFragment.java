@@ -59,6 +59,7 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 	private PreferenceCategory mAdvancedCategory;
 	private PreferenceCategory mMpdecisionCategory;
 	private CustomPreference mMpdecision;
+	private CustomPreference mThermal;
 	private PreferenceScreen mRoot;
 	private static final String MAX_FREQ_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
 	private static final String GOVERNOR_FILE = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor";
@@ -102,9 +103,11 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mAdvancedCategory = (PreferenceCategory) findPreference("key_advanced");
 		mMpdecisionCategory = (PreferenceCategory) findPreference("key_mpdecision_cat");
 		mMpdecision = (CustomPreference) findPreference("key_mpdecision");
+		mThermal = (CustomPreference) findPreference("key_thermal");
 		mAdvancedGovernor.setOnPreferenceClickListener(this);
 		mAdvancedCpuquiet.setOnPreferenceClickListener(this);
 		mMpdecision.setOnPreferenceClickListener(this);
+		mThermal.setOnPreferenceClickListener(this);
 
 		if(!new File(CPUQUIET_DIR).exists()) {
 			mAdvancedCategory.removePreference(mAdvancedCpuquiet);
@@ -129,6 +132,7 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mCpuquiet.setTitleColor(color);
 		mAdvancedCpuquiet.setTitleColor(color);
 		mMpdecision.setTitleColor(color);
+		mThermal.setTitleColor(color);
 
 		mCpuMaxFreq.setCategory(category);
 		mCpuMinFreq.setCategory(category);
@@ -201,6 +205,7 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		mAdvancedCpuquiet.hideBoot(true);
 		mAdvancedGovernor.hideBoot(true);
 		mMpdecision.hideBoot(true);
+		mThermal.hideBoot(true);
 		setRetainInstance(true);
 	}
 
@@ -261,6 +266,9 @@ public class CpuPreferenceFragment extends PreferenceFragment implements OnPrefe
 		}
 		if(pref == mMpdecision) {
 			f = new MpdecisionPreferenceFragment();
+		}
+		if(pref == mThermal) {
+			f = new ThermalPreferenceFragment();
 		}
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
 		// This adds the newly created Preference fragment to my main layout, shown below

@@ -65,6 +65,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	private PreferenceCategory mQuiet;
 	private PreferenceCategory mVm;
 	private PreferenceCategory mMpdecision;
+	private PreferenceCategory mThermal;
 
 	private static final String cpuCat = "cpu";
 	private static final String gpuCat = "gpu";
@@ -76,6 +77,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 	private static final String QuietCat ="cpuquiet";
 	private static final String vmCat = "vm";
 	private static final String mpdecisionCat = "mpdecision";
+	private static final String thermalCat = "thermal";
 
 	private ListView listView;
 	private SwipeDismissListViewTouchListener touchListener;
@@ -121,6 +123,7 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		mQuiet = (PreferenceCategory) findPreference("cat_quiet");
 		mVm= (PreferenceCategory) findPreference("cat_vm");
 		mMpdecision = (PreferenceCategory) findPreference("cat_mpdecision");
+		mThermal = (PreferenceCategory) findPreference("cat_thermal");
 		setHasOptionsMenu(true);
 
 		Helpers.setPermissions(CPUQUIET_FILE);
@@ -216,6 +219,10 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 				else if(category.equals(vmCat)) {
 					String color = getColor(7);
 					createPreference(mVm,fPath, fName, value, color, category, false);
+				}
+				else if(category.equals(thermalCat)) {
+					String color = getColor(12);
+					createPreference(mThermal,fPath, fName, value, color, category, false);
 				}
 				else if(category.equals(mpdecisionCat)) {
 					String color = getColor(12);
@@ -465,6 +472,9 @@ public class ReviewBootPreferenceFragment extends PreferenceFragment {
 		}
 		if(mMpdecision.getPreferenceCount()==0) {
 			mRoot.removePreference(mMpdecision);
+		}
+		if(mThermal.getPreferenceCount()==0) {
+			mRoot.removePreference(mThermal);
 		}
 	}
 

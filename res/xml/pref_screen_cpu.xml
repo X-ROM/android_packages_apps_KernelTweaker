@@ -27,6 +27,10 @@
             android:key="key_mpdecision"
             android:summary="@string/mpdecision_summary"
             android:title="@string/mpdecision_title" />
+        <com.dsht.kerneltweaker.CustomPreference
+            android:key="key_thermal"
+            android:summary="@string/thermal_summary"
+            android:title="@string/thermal_title" />
     </PreferenceCategory>
     <PreferenceCategory 
         android:key="key_advanced"

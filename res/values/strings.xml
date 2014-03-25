@@ -1192,8 +1192,8 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="mpdecision_category">MSM mpdecision and thermal</string>
     <string name="mpdecision_title">Mpdecision</string>
     <string name="mpdecision_summary">In kernel hotplug control</string>
-    <string name="mpdec_general">General</string>
-    <string name="mpdec_enabled">Enable hotplug</string>
+    <string name="mpdec_general">Hotplug settings</string>
+    <string name="mpdec_enabled">Enable/Disable hotplug</string>
     <string name="mpdec_min_cpu">Minimum CPUs online</string>
     <string name="mpdec_max_cpu">Maximum CPUs online</string>
     <string name="mpdec_scroff_single">Screen off single core</string>
@@ -1203,6 +1203,25 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="mpdec_boost_time">Touch boost time</string>
     <string name="mpdec_advanced_category">Advanced</string>
     <string name="mpdec_advanced">Advanced settings</string>
-    <string name="mpdec_advanced_summary">View or change advanced hotplug settings</string>
+    <string name="mpdec_advanced_summary">View or change advance hotplug settings</string>
+
+    <!-- Thermal -->
+    <string name="thermal_title">Thermal</string>
+    <string name="thermal_summary">In kernel thermal control</string>
+    <string name="thermal_general">Thermal thresholds</string>
+    <string name="thermal_enabled">Enable/Disable thermal</string>
+    <string name="thermal_enabled_summary">proceed with caution, if you disable this your phone might overheat due to no thermal throttling</string>
+    <string name="thermal_shutdown">Shutdown Temperature</string>
+    <string name="thermal_check">Check every (ms)</string>
+    <string name="thermal_low_limit">Low limit</string>
+    <string name="thermal_low_limit_clear">Low limit clear</string>
+    <string name="thermal_mid_limit">Mid limit</string>
+    <string name="thermal_mid_limit_clear">Mid limit clear</string>
+    <string name="thermal_max_limit">High limit</string>
+    <string name="thermal_max_limit_clear">High limit clear</string>
+    <string name="thermal_freq">Frequencies</string>
+    <string name="thermal_low_freq">Low limit frequency</string>
+    <string name="thermal_mid_freq">Mid limit frequency</string>
+    <string name="thermal_max_freq">High limit frequency</string>
 
 </resources>
