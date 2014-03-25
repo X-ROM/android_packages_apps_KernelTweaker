@@ -118,7 +118,7 @@ public class FileManagerFragment extends Fragment implements OnItemClickListener
 			dialog.show();
 			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 			Window window = dialog.getWindow();
-			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+			window.setLayout(600, LayoutParams.WRAP_CONTENT);
 			
 		}else if(filesList[position].getName().endsWith(".img")) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -142,7 +142,7 @@ public class FileManagerFragment extends Fragment implements OnItemClickListener
 			dialog.show();
 			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 			Window window = dialog.getWindow();
-			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+			window.setLayout(600, LayoutParams.WRAP_CONTENT);
 		}
 	}
 	

@@ -844,7 +844,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			dialog.show();
 			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 			Window window = dialog.getWindow();
-			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+			window.setLayout(600, LayoutParams.WRAP_CONTENT);
 		}
                 if(pref == mWakeTimeout) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -872,7 +872,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			dialog.show();
 			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 			Window window = dialog.getWindow();
-			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+			window.setLayout(600, LayoutParams.WRAP_CONTENT);
 		}
 		if(pref == mVibration) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -900,7 +900,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			dialog.show();
 			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 			Window window = dialog.getWindow();
-			window.setLayout(800, LayoutParams.WRAP_CONTENT);
+			window.setLayout(600, LayoutParams.WRAP_CONTENT);
 		}
 
 		return false;
@@ -950,7 +950,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 				dialog.show();
 				dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 				Window window = dialog.getWindow();
-				window.setLayout(800, LayoutParams.WRAP_CONTENT);
+				window.setLayout(600, LayoutParams.WRAP_CONTENT);
 				return true;
 			}
 

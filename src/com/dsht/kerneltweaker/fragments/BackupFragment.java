@@ -223,7 +223,7 @@ public class BackupFragment extends Fragment implements OnClickListener, OnItemC
 		dialog.show();
 		dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
 		Window window = dialog.getWindow();
-		window.setLayout(800, LayoutParams.WRAP_CONTENT);
+		window.setLayout(600, LayoutParams.WRAP_CONTENT);
 	}
 
 	public void installBoot(String bootPath) {
