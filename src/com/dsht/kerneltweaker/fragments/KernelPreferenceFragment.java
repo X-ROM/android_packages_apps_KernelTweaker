@@ -68,6 +68,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private CustomListPreference mCpuReadAhead;
 	private PreferenceCategory mSoundCategory;
 	private CustomPreference mSoundInfo;
+	private CustomCheckBoxPreference mUsbOtg;
 	private SharedPreferences mPrefs;
 	private PreferenceCategory mKernelCategory;
 	private PreferenceCategory mTouchCategory;
@@ -100,6 +101,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 	private static final String DYNFSYNC_FILE = "/sys/kernel/dyn_fsync/Dyn_fsync_active";
 	private static final String FAUXSOUND_FILE = "/sys/kernel/sound_control_3";
 	private static final String VIBRATION_FILE = "/sys/class/timed_output/vibrator/amp";
+	private static final String USB_OTG_FILE = "/sys/module/msm_otg/parameters/otg_hack_enable";
 	
 	
 	private String color;
@@ -138,6 +140,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		Helpers.setPermissions(VOLUME_BOOST_FILE);
 		Helpers.setPermissions(TCP_CURRENT);
 		Helpers.setPermissions(TCP_OPTIONS);
+		Helpers.setPermissions(USB_OTG_FILE);
 		
 
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -163,6 +166,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mIntelliPlug = (CustomCheckBoxPreference) findPreference("key_intelliplug_switch");
 		mEcoMode = (CustomCheckBoxPreference) findPreference("key_ecomode_switch");
 		mVibration = (CustomPreference) findPreference("key_vibration");
+		mUsbOtg = (CustomCheckBoxPreference) findPreference("key_usb_otg");
 		db = MainActivity.db;
 
 		mKernelFsync.setKey(FSYNC_FILE);
@@ -180,6 +184,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mIntelliPlug.setKey(INTELLIPLUG_FILE);
 		mEcoMode.setKey(ECOMODE_FILE);
 		mVibration.setKey(VIBRATION_FILE);
+		mUsbOtg.setKey(USB_OTG_FILE);
 
 		mCpuScheduler.setKey(SCHEDULER_FILE);
 		mCpuReadAhead.setKey(READ_AHEAD_FILE);
@@ -199,6 +204,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mIntelliPlug.setCategory(category);
 		mEcoMode.setCategory(category);
 		mVibration.setCategory(category);
+		mUsbOtg.setCategory(category);
 
 		String[] schedulers = Helpers.getAvailableSchedulers();
 		String[] readAheadKb = {"128","256","384","512","640","768","896","1024","1152",
@@ -240,6 +246,7 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		mIntelliPlug.setTitleColor(color);
 		mEcoMode.setTitleColor(color);
 		mVibration.setTitleColor(color);
+		mUsbOtg.setTitleColor(color);
 
 		mCpuScheduler.setEntries(schedulers);
 		mCpuScheduler.setEntryValues(schedulers);
@@ -451,6 +458,25 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			}
 		});
 
+		mUsbOtg.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				String cmd = null;
+				String value = null;
+				if (newValue.toString().equals("true")) {
+					cmd = "echo 1 > "+USB_OTG_FILE;
+					value = "1";
+				} else {
+					cmd = "echo 0 > "+USB_OTG_FILE;
+					value = "0";
+				}
+				CMDProcessor.runSuCommand(cmd);
+				updateDb(preference, value, ((CustomCheckBoxPreference) preference).isBootChecked());
+				return true;
+			}
+		});
+
 		if(!new File(FSYNC_FILE).exists()) {
 			mKernelCategory.removePreference(mKernelFsync);
 		} else {
@@ -585,6 +611,19 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 			} else if(fchargeState.equals("1")) {
 				mEcoMode.setChecked(true);
 				mEcoMode.setValue("1");
+			}
+		}
+
+		if(!new File(USB_OTG_FILE).exists()) {
+			mKernelCategory.removePreference(mUsbOtg);
+		} else {
+			String otgState = Helpers.getFileContent(new File(USB_OTG_FILE));
+			if(otgState.equals("0")) {
+				mUsbOtg.setChecked(false);
+				mUsbOtg.setValue("0");
+			} else if(otgState.equals("1")) {
+				mUsbOtg.setChecked(true);
+				mUsbOtg.setValue("1");
 			}
 		}
 

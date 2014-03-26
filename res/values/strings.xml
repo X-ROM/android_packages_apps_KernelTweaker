@@ -1264,4 +1264,8 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="eco_mode_title">Eco mode</string>
     <string name="eco_mode_summary">Child of Intelli-plug, will try to use only two cores without loosing performance</string>
 
+    <!-- USB OTG for Mako -->
+    <string name="usb_otg_title">USB OTG</string>
+    <string name="usb_otg_summary">Enable or disable usb otg</string>
+
 </resources>

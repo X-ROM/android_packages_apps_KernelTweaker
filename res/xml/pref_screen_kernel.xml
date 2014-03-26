@@ -53,6 +53,10 @@
         android:key="key_kernel_tweaks"
         android:title="@string/misc_cat" >
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
+            android:key="key_usb_otg"
+            android:summary="@string/usb_otg_summary"
+            android:title="@string/usb_otg_title" />
+        <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_fcharge_switch"
             android:summary="@string/fast_charge_summary"
             android:title="@string/fast_charge_title" />
