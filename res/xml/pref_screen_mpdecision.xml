@@ -8,11 +8,11 @@
             android:key="key_enabled"
             android:title="@string/mpdec_enabled" />
         <com.dsht.kerneltweaker.CustomListPreference
-            android:key="key_max_cpu"
+            android:key="key_min_cpu"
             android:summary=""
             android:title="@string/mpdec_min_cpu" />
-        <com.dsht.kerneltweaker.CustomListPreference
-            android:key="key_min_cpu"
+            <com.dsht.kerneltweaker.CustomListPreference
+            android:key="key_max_cpu"
             android:summary=""
             android:title="@string/mpdec_max_cpu" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
