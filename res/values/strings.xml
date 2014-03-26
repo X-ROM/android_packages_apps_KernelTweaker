@@ -1234,7 +1234,7 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <!-- Touch control -->
     <string name="touch_control_cat">Touch control</string>
     <string name="t2w_title">Touch 2 Wake</string>
-    <string name="t2w_summary">If enabled, you will be able to only turn on the screen if it times out</string>
+    <string name="t2w_summary">If enabled, you will be able to turn the screen on if it times out</string>
     <string name="t2w_delay_title">Touch 2 Wake Delay</string>
     <string name="dt2w_title">DoubleTap 2 Wake</string>
     <string name="dt2w_summary">If enabled, you will be able to wake your device with a double tap on the screen</string>

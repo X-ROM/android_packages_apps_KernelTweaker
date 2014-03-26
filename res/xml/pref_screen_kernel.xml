@@ -37,8 +37,8 @@
             android:title="@string/dt2w_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_s2w_switch"
-            android:summary="@string/dt2w_summary"
-            android:title="@string/dt2w_title" />
+            android:summary="@string/s2w_summary"
+            android:title="@string/s2w_title" />
         <com.dsht.kerneltweaker.CustomCheckBoxPreference
             android:key="key_pwks_switch"
             android:summary="@string/pwks_summary"
