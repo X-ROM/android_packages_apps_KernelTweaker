@@ -27,6 +27,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,16 +38,22 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class MpdecisionPreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
 
@@ -58,6 +65,9 @@ public class MpdecisionPreferenceFragment extends PreferenceFragment implements 
 	private CustomCheckBoxPreference mScrOffSingleCore;
 	private CustomCheckBoxPreference mTouchBoost;
 	private CustomPreference mBoostTime;
+
+	private int mSeekbarProgress;
+	private EditText settingText;
 	private Context mContext;
 	private PreferenceScreen mRoot;
         private SharedPreferences mPrefs;
@@ -154,7 +164,6 @@ public class MpdecisionPreferenceFragment extends PreferenceFragment implements 
 
 		mMaxcpu.setOnPreferenceChangeListener(this);
 		mMincpu.setOnPreferenceChangeListener(this);
-		mBoostTime.setOnPreferenceClickListener(this);
 		mMpdecAdvanced.setOnPreferenceClickListener(this);
 
 		mMpdecAdvanced.hideBoot(true);
@@ -287,88 +296,125 @@ public class MpdecisionPreferenceFragment extends PreferenceFragment implements 
 		// By hiding the main fragment, transparency isn't an issue
 		ft.addToBackStack("TAG");
 		ft.commit();
-		}
-
-                if(pref == mBoostTime) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		}
-
-		return false;
 	}
+	return true;
+    }
 
-	private void createPreference(PreferenceCategory mCategory, File file, String color) {
-		String fileName = file.getName();
-		String filePath = file.getAbsolutePath();
-		final String fileContent = Helpers.getFileContent(file);
-		final CustomPreference pref = new CustomPreference(mContext, false, category);
-		pref.setTitle(fileName);
-		pref.setTitleColor(color);
-		pref.setSummary(fileContent);
-		pref.setKey(filePath);
-		Log.d("CONTENT", fileContent);
-		mCategory.addPreference(pref);
-		pref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+    @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+        if (preference == mBoostTime) {
+            String title = getString(R.string.mpdec_boost_time);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(BOOST_TIME_FILE));
+            openDialog(currentProgress, title, 0, 5000, preference,
+                    BOOST_TIME_FILE, BOOST_TIME_FILE);
+            return true;
+        }
 
-			@Override
-			public boolean onPreferenceClick(final Preference p) {
-				// TODO Auto-generated method stub
-				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-				LayoutInflater inflater = getActivity().getLayoutInflater();
-				View v = inflater.inflate(R.layout.dialog_layout, null, false);
-				final EditText et = (EditText) v.findViewById(R.id.et);
-				String val = p.getSummary().toString();
-				et.setText(val);
-				et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-				et.setGravity(Gravity.CENTER_HORIZONTAL);
-				builder.setView(v);
-				builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						String value = et.getText().toString();
-						p.setSummary(value);
-						Log.d("TEST", "echo "+value+" > "+ p.getKey());
-						CMDProcessor.runSuCommand("echo "+value+" > "+p.getKey());
-						updateListDb(pref, value, pref.isBootChecked());
-					}
-				} );
-				AlertDialog dialog = builder.create();
-				dialog.show();
-				dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-				Window window = dialog.getWindow();
-				window.setLayout(600, LayoutParams.WRAP_CONTENT);
-				return true;
-			}
+    public void openDialog(int currentProgress, String title, final int min, final int max,
+                           final Preference pref, final String path, final String key) {
+        Resources res = mContext.getResources();
+        String cancel = res.getString(R.string.cancel);
+        String ok = res.getString(R.string.ok);
+        LayoutInflater factory = LayoutInflater.from(mContext);
+        final View alphaDialog = factory.inflate(R.layout.seekbar_dialog, null);
 
-		});
-	}
+        final SeekBar seekbar = (SeekBar) alphaDialog.findViewById(R.id.seek_bar);
 
+        seekbar.setMax(max);
+        seekbar.setProgress(currentProgress);
+
+        settingText = (EditText) alphaDialog.findViewById(R.id.setting_text);
+        settingText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    int val = Integer.parseInt(settingText.getText().toString());
+                    seekbar.setProgress(val);
+                    return true;
+                }
+                return false;
+            }
+        });
+        settingText.setText(Integer.toString(currentProgress));
+        settingText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    int val = Integer.parseInt(s.toString());
+                    if (val > max) {
+                        s.replace(0, s.length(), Integer.toString(max));
+                        val = max;
+                    }
+                    seekbar.setProgress(val);
+                } catch (NumberFormatException ex) {
+                }
+            }
+        });
+
+        SeekBar.OnSeekBarChangeListener seekBarChangeListener =
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                        mSeekbarProgress = seekbar.getProgress();
+                        if (fromUser) {
+                            settingText.setText(Integer.toString(mSeekbarProgress));
+                        }
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekbar) {
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekbar) {
+                    }
+                };
+        seekbar.setOnSeekBarChangeListener(seekBarChangeListener);
+
+        new AlertDialog.Builder(mContext)
+                .setTitle(title)
+                .setView(alphaDialog)
+                .setNegativeButton(cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // nothing
+                            }
+                        })
+                .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int val = Integer.parseInt(settingText.getText().toString());
+                        if (val < min) {
+                            val = min;
+                        }
+                        seekbar.setProgress(val);
+                        int newProgress = seekbar.getProgress();
+                        pref.setSummary(Integer.toString(newProgress));
+                        if (Helpers.isSystemApp(getActivity())) {
+                            Helpers.writeOneLine(path, Integer.toString(newProgress));
+                        } else {
+                            CMDProcessor.runSuCommand("busybox echo " + newProgress + " > " + path);
+                        }
+                        updateListDb(pref, Integer.toString(newProgress), ((CustomPreference)pref).isBootChecked());
+                        final SharedPreferences.Editor editor = mPrefs.edit();
+                        editor.putInt(key, newProgress);
+                        editor.commit();
+                    }
+                }).create().show();
+	}    
+    
 	private void updateListDb(final Preference p, final String value, final boolean isChecked) {
 
 		class LongOperation extends AsyncTask<String, Void, String> {
