@@ -27,6 +27,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,18 +38,24 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
-public class ThermalPreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener, OnPreferenceClickListener {
+public class ThermalPreferenceFragment extends PreferenceFragment implements OnPreferenceChangeListener {
 
 	private CustomCheckBoxPreference mEnabled;
 	private CustomPreference mShutdown;
@@ -62,6 +69,9 @@ public class ThermalPreferenceFragment extends PreferenceFragment implements OnP
 	private CustomListPreference mLowFreq;
 	private CustomListPreference mMidFreq;
 	private CustomListPreference mMaxFreq;
+
+	private int mSeekbarProgress;
+	private EditText settingText;
 	private Context mContext;
 	private PreferenceScreen mRoot;
         private SharedPreferences mPrefs;
@@ -103,6 +113,7 @@ public class ThermalPreferenceFragment extends PreferenceFragment implements OnP
 		Helpers.setPermissions(LOW_FREQ_FILE);
 		Helpers.setPermissions(MID_FREQ_FILE);
 		Helpers.setPermissions(MAX_FREQ_FILE);
+		Helpers.setPermissions(CHECK_FILE);
 
 		mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
 		mEnabled = (CustomCheckBoxPreference) findPreference("key_enabled");
@@ -190,14 +201,6 @@ public class ThermalPreferenceFragment extends PreferenceFragment implements OnP
 		mMaxFreq.setEntries(names);
 		mMaxFreq.setEntryValues(frequencies);
 
-		mShutdown.setOnPreferenceClickListener(this);
-		mThermalPoll.setOnPreferenceClickListener(this);
-		mLowlimit.setOnPreferenceClickListener(this);
-		mLowlimitClear.setOnPreferenceClickListener(this);
-		mMidlimit.setOnPreferenceClickListener(this);
-		mMidlimitClear.setOnPreferenceClickListener(this);
-		mMaxlimit.setOnPreferenceClickListener(this);
-		mMaxlimitClear.setOnPreferenceClickListener(this);
 		mLowFreq.setOnPreferenceChangeListener(this);
 		mMidFreq.setOnPreferenceChangeListener(this);
 		mMaxFreq.setOnPreferenceChangeListener(this);
@@ -281,278 +284,162 @@ public class ThermalPreferenceFragment extends PreferenceFragment implements OnP
 	}
 
 	@Override
-	public boolean onPreferenceClick(final Preference pref) {
-		// TODO Auto-generated method stub
-		if(pref == mShutdown) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+        if (preference == mShutdown) {
+            String title = getString(R.string.thermal_shutdown);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(SHUTDOWN_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    SHUTDOWN_FILE, SHUTDOWN_FILE);
+            return true;
+        } else if (preference == mLowlimit) {
+            String title = getString(R.string.thermal_low_limit);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(LOW_LIMIT_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    LOW_LIMIT_FILE, LOW_LIMIT_FILE);
+            return true;
+        } else if (preference == mLowlimitClear) {
+            String title = getString(R.string.thermal_low_limit_clear);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(LOW_LIMIT_CLEAR_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    LOW_LIMIT_CLEAR_FILE, LOW_LIMIT_CLEAR_FILE);
+            return true;
+        } else if (preference == mMidlimit) {
+            String title = getString(R.string.thermal_mid_limit);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(MID_LIMIT_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    MID_LIMIT_FILE, MID_LIMIT_FILE);
+            return true;
+        } else if (preference == mMidlimitClear) {
+            String title = getString(R.string.thermal_mid_limit_clear);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(MID_LIMIT_CLEAR_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    MID_LIMIT_CLEAR_FILE, MID_LIMIT_CLEAR_FILE);
+            return true;
+        } else if (preference == mMaxlimit) {
+            String title = getString(R.string.thermal_max_limit);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(MAX_LIMIT_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    MAX_LIMIT_FILE, MAX_LIMIT_FILE);
+            return true;
+        } else if (preference == mMaxlimitClear) {
+            String title = getString(R.string.thermal_max_limit_clear);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(MAX_LIMIT_CLEAR_FILE));
+            openDialog(currentProgress, title, 0, 100, preference,
+                    MAX_LIMIT_CLEAR_FILE, MAX_LIMIT_CLEAR_FILE);
+            return true;
+	} else if (preference == mThermalPoll) {
+            String title = getString(R.string.thermal_check);
+            int currentProgress = Integer.parseInt(Helpers.readOneLine(CHECK_FILE));
+            openDialog(currentProgress, title, 0, 500, preference,
+                    CHECK_FILE, CHECK_FILE);
+            return true;
+        }
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mThermalPoll) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mLowlimit) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+    public void openDialog(int currentProgress, String title, final int min, final int max,
+                           final Preference pref, final String path, final String key) {
+        Resources res = mContext.getResources();
+        String cancel = res.getString(R.string.cancel);
+        String ok = res.getString(R.string.ok);
+        LayoutInflater factory = LayoutInflater.from(mContext);
+        final View alphaDialog = factory.inflate(R.layout.seekbar_dialog, null);
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);		
-		} else if(pref == mLowlimitClear) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        final SeekBar seekbar = (SeekBar) alphaDialog.findViewById(R.id.seek_bar);
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mMidlimit) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        seekbar.setMax(max);
+        seekbar.setProgress(currentProgress);
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mMidlimitClear) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+        settingText = (EditText) alphaDialog.findViewById(R.id.setting_text);
+        settingText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    int val = Integer.parseInt(settingText.getText().toString());
+                    seekbar.setProgress(val);
+                    return true;
+                }
+                return false;
+            }
+        });
+        settingText.setText(Integer.toString(currentProgress));
+        settingText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mMaxlimit) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		} else if(pref == mMaxlimitClear) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View v = inflater.inflate(R.layout.dialog_layout, null, false);
-			final EditText et = (EditText) v.findViewById(R.id.et);
-			String val = pref.getSummary().toString();
-			et.setText(val);
-			et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-			et.setGravity(Gravity.CENTER_HORIZONTAL);
-			List<DataItem> items = db.getAllItems();
-			builder.setView(v);
-			builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    int val = Integer.parseInt(s.toString());
+                    if (val > max) {
+                        s.replace(0, s.length(), Integer.toString(max));
+                        val = max;
+                    }
+                    seekbar.setProgress(val);
+                } catch (NumberFormatException ex) {
+                }
+            }
+        });
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					String value = et.getText().toString();
-					pref.setSummary(value);
-					CMDProcessor.runSuCommand("echo \""+value+"\" > "+pref.getKey());
-					updateListDb(pref, value, ((CustomPreference) pref).isBootChecked());
-				}
-			} );
-			AlertDialog dialog = builder.create();
-			dialog.show();
-			dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-			Window window = dialog.getWindow();
-			window.setLayout(600, LayoutParams.WRAP_CONTENT);
-		}
+        SeekBar.OnSeekBarChangeListener seekBarChangeListener =
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekbar, int progress, boolean fromUser) {
+                        mSeekbarProgress = seekbar.getProgress();
+                        if (fromUser) {
+                            settingText.setText(Integer.toString(mSeekbarProgress));
+                        }
+                    }
 
-		return false;
-	}
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekbar) {
+                    }
 
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekbar) {
+                    }
+                };
+        seekbar.setOnSeekBarChangeListener(seekBarChangeListener);
 
-	private void createPreference(PreferenceCategory mCategory, File file, String color) {
-		String fileName = file.getName();
-		String filePath = file.getAbsolutePath();
-		final String fileContent = Helpers.getFileContent(file);
-		final CustomPreference pref = new CustomPreference(mContext, false, category);
-		pref.setTitle(fileName);
-		pref.setTitleColor(color);
-		pref.setSummary(fileContent);
-		pref.setKey(filePath);
-		Log.d("CONTENT", fileContent);
-		mCategory.addPreference(pref);
-		pref.setOnPreferenceClickListener(new OnPreferenceClickListener(){
-
-			@Override
-			public boolean onPreferenceClick(final Preference p) {
-				// TODO Auto-generated method stub
-				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-				LayoutInflater inflater = getActivity().getLayoutInflater();
-				View v = inflater.inflate(R.layout.dialog_layout, null, false);
-				final EditText et = (EditText) v.findViewById(R.id.et);
-				String val = p.getSummary().toString();
-				et.setText(val);
-				et.setRawInputType(InputType.TYPE_CLASS_NUMBER);
-				et.setGravity(Gravity.CENTER_HORIZONTAL);
-				builder.setView(v);
-				builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						String value = et.getText().toString();
-						p.setSummary(value);
-						Log.d("TEST", "echo "+value+" > "+ p.getKey());
-						CMDProcessor.runSuCommand("echo "+value+" > "+p.getKey());
-						updateListDb(pref, value, pref.isBootChecked());
-					}
-				} );
-				AlertDialog dialog = builder.create();
-				dialog.show();
-				dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-				Window window = dialog.getWindow();
-				window.setLayout(600, LayoutParams.WRAP_CONTENT);
-				return true;
-			}
-
-		});
-	}
-
+        new AlertDialog.Builder(mContext)
+                .setTitle(title)
+                .setView(alphaDialog)
+                .setNegativeButton(cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // nothing
+                            }
+                        })
+                .setPositiveButton(ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int val = Integer.parseInt(settingText.getText().toString());
+                        if (val < min) {
+                            val = min;
+                        }
+                        seekbar.setProgress(val);
+                        int newProgress = seekbar.getProgress();
+                        pref.setSummary(Integer.toString(newProgress));
+                        if (Helpers.isSystemApp(getActivity())) {
+                            Helpers.writeOneLine(path, Integer.toString(newProgress));
+                        } else {
+                            CMDProcessor.runSuCommand("busybox echo " + newProgress + " > " + path);
+                        }
+                        updateListDb(pref, Integer.toString(newProgress), ((CustomPreference)pref).isBootChecked());
+                        final SharedPreferences.Editor editor = mPrefs.edit();
+                        editor.putInt(key, newProgress);
+                        editor.commit();
+                    }
+                }).create().show();
+	}    
+    
 	private void updateListDb(final Preference p, final String value, final boolean isChecked) {
 
 		class LongOperation extends AsyncTask<String, Void, String> {
