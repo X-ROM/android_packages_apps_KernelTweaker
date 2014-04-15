@@ -306,9 +306,8 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
 	@Override
 	public void onBackPressed(){
-		FragmentManager fm = getFragmentManager();
-			super.onBackPressed();
-		}
+	    FragmentManager fm = getFragmentManager();
+	    super.onBackPressed();
 	}
 
 
