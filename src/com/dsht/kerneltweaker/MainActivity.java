@@ -307,12 +307,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 	@Override
 	public void onBackPressed(){
 		FragmentManager fm = getFragmentManager();
-		if (fm.getBackStackEntryCount() > 0) {
-			Log.i("MainActivity", "popping backstack");
-			fm.popBackStack();
-
-		} else {
-			Log.i("MainActivity", "nothing on backstack, calling super");
 			super.onBackPressed();
 		}
 	}
