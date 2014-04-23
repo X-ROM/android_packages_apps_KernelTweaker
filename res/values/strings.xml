@@ -1242,7 +1242,7 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
     <string name="s2w_summary">If enabled, you will be able to wake or turn off the screen by swiping on navigation bar area</string>
     <string name="pwks_title">S2W + DT2W Powerkey suspend</string>
     <string name="pwks_summary">If enabled, using the powerkey to turn screen off will disable Sweep2Wake and DoubleTap 2 Wake</string>
-    <string name="wake_timeout_title">Wake timeout</string>
+    <string name="wake_timeout_title">Wake timeout (minutes)</string>
 
     <!-- Fast Charge -->
     <string name="misc_cat">Misc</string>
@@ -1266,6 +1266,6 @@ causes the kernel to prefer to reclaim dentries and inodes.</item>
 
     <!-- USB OTG for Mako -->
     <string name="usb_otg_title">USB OTG</string>
-    <string name="usb_otg_summary">Enable or disable usb otg</string>
+    <string name="usb_otg_summary">Enable usb otg</string>
 
 </resources>

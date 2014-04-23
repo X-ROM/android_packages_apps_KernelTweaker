@@ -666,6 +666,9 @@ public class KernelPreferenceFragment extends PreferenceFragment implements OnPr
 		if(mSoundCategory.getPreferenceCount() == 1) {
 			mRootScreen.removePreference(mSoundCategory);
 		}
+                if(mTouchCategory.getPreferenceCount() == 0) {
+			mRootScreen.removePreference(mTouchCategory);
+		}
 
 		if(RootTools.isBusyboxAvailable()) {
 			String[] availTCP = Helpers.readCommandStrdOut(TCP_OPTIONS, false).replaceAll("net.ipv4.tcp_available_congestion_control = ", "").replaceAll("\n", "").split(" ");
